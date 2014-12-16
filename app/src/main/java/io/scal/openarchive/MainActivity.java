@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -52,13 +53,16 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         switch (position) {
-            case 0:
+            case 0: //home
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, FragmentMain.newInstance())
                         .commit();
                 break;
-            case 1:
+            case 1: //logout
+                Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
+                break;
+            case 2: //settings
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
@@ -107,24 +111,24 @@ public class MainActivity extends ActionBarActivity
     public void onFragmentInteraction(Uri uri) {
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.d(TAG, "onActivityResult, requestCode:" + requestCode + ", resultCode: " + resultCode);
+
+        String path = null;
         if (resultCode == RESULT_OK) {
             if(requestCode == Globals.REQUEST_VIDEO_CAPTURE) {
                 Uri uri = intent.getData();
-                String path = getRealPathFromURI(getApplicationContext(), uri);
+                path = getRealPathFromURI(getApplicationContext(), uri);
                 Log.d(TAG, "onActivityResult, video path:" + path);
 
             } else if(requestCode == Globals.REQUEST_IMAGE_CAPTURE) {
-                String path = this.getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(Globals.EXTRA_FILE_LOCATION, null);
+                path = this.getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(Globals.EXTRA_FILE_LOCATION, null);
                 Log.d(TAG, "onActivityResult, path:" + path);
-            } else if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
 
+            } else if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
                 Uri uri = intent.getData();
-                String path = getRealPathFromURI(getApplicationContext(), uri);
+                path = getRealPathFromURI(getApplicationContext(), uri);
                 Log.d(TAG, "onActivityResult, audio path:" + path);
 
             } else if (requestCode == Globals.REQUEST_FILE_IMPORT) {
@@ -134,8 +138,16 @@ public class MainActivity extends ActionBarActivity
                     getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
 
-                String path = getRealPathFromURI(getApplicationContext(), uri);
+                path = getRealPathFromURI(getApplicationContext(), uri);
                 Log.d(TAG, "onActivityResult, imported file path:" + path);
+            }
+
+            if (null == path) {
+                Intent viewMediaIntent = new Intent(this, ViewMediaActivity.class);
+                startActivity(viewMediaIntent);
+            } else {
+                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
+                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
             }
         }
     }

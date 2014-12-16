@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class FragmentMain extends Fragment {
     private static final String TAG = "MainFragment";
 
@@ -41,7 +42,7 @@ public class FragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        initHandlers(view);
+        init(view);
 
         return view;
     }
@@ -76,7 +77,7 @@ public class FragmentMain extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void initHandlers(View view) {
+    private void init(View view) {
         Button btnImport = (Button) view.findViewById(R.id.btnImport);
         Button btnCapture = (Button) view.findViewById(R.id.btnCapture);
 
