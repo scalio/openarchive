@@ -12,6 +12,9 @@ public class Globals {
     public static final String PREFERENCES_ANALYTICS = "analytics";
     public static final String PREFERENCES_WP_REGISTERED = "wp.registered";
 
+    // database
+    public static final int DATABASE_VERSION = 1;
+
     // request Codes used for media import and capture
     public static final int REQUEST_VIDEO_CAPTURE = 100;
     public static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -27,4 +30,8 @@ public class Globals {
     public static final String AUDIO = "audio";
     public static final String PHOTO = "photo";
     public static final String VIDEO = "video";
+
+    // (DO NOT CHANGE ORDER!) metadata values
+    public static String[] metadataValues = {"Use Tor",
+                               "Another item","Another longer item to diplay"};
 }

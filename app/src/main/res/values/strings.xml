@@ -8,6 +8,11 @@
     <string name="title_activity_first_start">First Start</string>
     <string name="title_activity_view_media">View Media</string>
 
+    <!-- General -->
+    <string name="lblSubmit">Submit Media</string>
+    <string name="loading_title">Uploading</string>
+    <string name="loading_message">Please wait...</string>
+
     <!-- NavigationDrawer -->
     <string name="title_section_home">Home</string>
     <string name="title_section_logout">Logout</string>
@@ -16,7 +21,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
-    <string-array name="title_menu_sections">
+    <string-array name="ar_title_menu_sections">
         <item>Home</item>
         <item>Logout</item>
         <item>Settings</item>
@@ -53,4 +58,5 @@
 
     <!-- Errors -->
     <string name="error_on_activity_result">File not found</string>
+
 </resources>

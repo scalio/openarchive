@@ -3,12 +3,12 @@ package io.scal.openarchive.database;
 import net.simonvt.schematic.annotation.Database;
 import net.simonvt.schematic.annotation.Table;
 
-import io.scal.openarchive.Constants;
+import io.scal.openarchive.Globals;
 
 /**
  * Created by micahjlucas on 12/12/14.
  */
-@Database(version = Constants.DATABASE_VERSION)
+@Database(version = Globals.DATABASE_VERSION)
 public class OpenArchiveDatabase {
 
     /** Table Definition        Reference Name                        SQL Tablename */

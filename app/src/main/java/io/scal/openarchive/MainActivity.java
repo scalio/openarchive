@@ -1,6 +1,7 @@
 package io.scal.openarchive;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +28,9 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
 
+    //FIXME
+    public static boolean SHOULD_SPIN = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,30 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        //FIXME REMOVE
+        if(SHOULD_SPIN) {
+            SHOULD_SPIN = false;
+
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle(getString(R.string.loading_title));
+            progressDialog.setMessage(getString(R.string.loading_message));
+            progressDialog.show();
+
+            Thread checkregister = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        progressDialog.dismiss();
+                    }
+                }
+            };
+            checkregister.start();
+        }
     }
 
     @Override

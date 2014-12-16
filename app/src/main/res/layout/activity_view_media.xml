@@ -15,4 +15,21 @@
         android:layout_width="wrap_content"
         android:layout_height="300dp" />
 
+    <TableLayout
+        android:id="@+id/tblMediaMetadata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivMedia"
+        android:stretchColumns="1"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tblMediaMetadata"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/lblSubmit"
+        android:textSize="14sp" />
 </RelativeLayout>
