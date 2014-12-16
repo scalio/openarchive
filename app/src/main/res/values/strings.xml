@@ -39,4 +39,6 @@
     <!-- MainFragment -->
     <string name="import_btn">IMPORT</string>
     <string name="capture_btn">CAPTURE</string>
+    <string name="title_activity_view_media">ViewMediaActivity</string>
+
 </resources>
