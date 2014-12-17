@@ -4,10 +4,12 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -19,12 +21,16 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import io.scal.openarchive.database.MetadataTable;
+import io.scal.openarchive.database.OpenArchiveContentProvider;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         FragmentMain.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
+    private static final String PREF_FIRST_RUN = "pref_first_run";
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
 
@@ -40,6 +46,13 @@ public class MainActivity extends ActionBarActivity
             Intent firstStartIntent = new Intent(this, FirstStartActivity.class);
             firstStartIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(firstStartIntent);
+        }
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isFirstRun = sp.getBoolean(PREF_FIRST_RUN, true);
+        // if first time user is in app
+        if (isFirstRun) {
+            initFirstRun(sp);
         }
 
         setContentView(R.layout.activity_main);
@@ -61,7 +74,7 @@ public class MainActivity extends ActionBarActivity
             progressDialog.setMessage(getString(R.string.loading_message));
             progressDialog.show();
 
-            Thread checkregister = new Thread(){
+            Thread progressThread = new Thread(){
                 @Override
                 public void run(){
                     try {
@@ -73,7 +86,7 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
             };
-            checkregister.start();
+            progressThread.start();
         }
     }
 
@@ -91,7 +104,7 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
                 break;
             case 2: //settings
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                Intent settingsIntent = new Intent(this, ArchiveSettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
         }
@@ -103,7 +116,6 @@ public class MainActivity extends ActionBarActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,7 +139,7 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            Intent settingsIntent = new Intent(this, ArchiveSettingsActivity.class);
             startActivity(settingsIntent);
             return true;
         }
@@ -171,7 +183,7 @@ public class MainActivity extends ActionBarActivity
             }
 
             if (null == path) {
-                Intent viewMediaIntent = new Intent(this, ViewMediaActivity.class);
+                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
                 startActivity(viewMediaIntent);
             } else {
                 Log.d(TAG, "onActivityResult: Invalid file on import or capture");
@@ -200,4 +212,11 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    private void initFirstRun(SharedPreferences sp) {
+        // set first run flag as false
+        sp.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+
+        // iniialize db
+        Util.initDB(this);
+    }
 }

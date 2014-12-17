@@ -30,8 +30,4 @@ public class Globals {
     public static final String AUDIO = "audio";
     public static final String PHOTO = "photo";
     public static final String VIDEO = "video";
-
-    // (DO NOT CHANGE ORDER!) metadata values
-    public static String[] metadataValues = {"Use Tor",
-                               "Another item","Another longer item to diplay"};
 }

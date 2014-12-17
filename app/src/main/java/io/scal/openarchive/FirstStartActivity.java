@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import io.scal.openarchive.EulaActivity.OnEulaAgreedTo;
+import io.scal.openarchive.server.ArchiveLoginActivity;
 
 /**
  * Prompt the user to view & agree to the StoryMaker TOS / EULA
@@ -69,14 +70,19 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
 
     public void onSignupButtonClick(View v) {
         if (assertTosAccepted()) {
+            Intent loginIntent = new Intent(this, ArchiveLoginActivity.class);
+            //put flag for signup
+            loginIntent.putExtra("url_code", 1);
+            startActivity(loginIntent);
         }
     }
 
     public void onLoginButtonClick(View v) {
         if (assertTosAccepted()) {
-            Intent mainIntent = new Intent(this, MainActivity.class);
-            startActivity(mainIntent);
-            finish();
+            Intent loginIntent = new Intent(this, MainActivity.class);
+            //put flag for login
+            loginIntent.putExtra("url_code", 0);
+            startActivity(loginIntent);
         }
     }
 

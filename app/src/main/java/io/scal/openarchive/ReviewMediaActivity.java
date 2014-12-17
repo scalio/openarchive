@@ -2,8 +2,10 @@ package io.scal.openarchive;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.media.RemoteControlClient;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,8 +18,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import io.scal.openarchive.database.MetadataTable;
+import io.scal.openarchive.database.OpenArchiveContentProvider;
 
-public class ViewMediaActivity extends ActionBarActivity {
+
+public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
 
     @Override
@@ -29,17 +34,22 @@ public class ViewMediaActivity extends ActionBarActivity {
     }
 
     private void init() {
+
+        Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
+        Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
+
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
         ivMedia.setImageDrawable(getResources().getDrawable(R.drawable.tunisia_sky));
 
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
-        String[] metadata = Globals.metadataValues;
+        while (result.moveToNext()) {
+            String s = result.getString(0);
+            String s2 = result.getString(1);
 
-        for(int i = 0; i < metadata.length; i++) {
             View vRow = getLayoutInflater().inflate(R.layout.row_media_metadata, null);
 
             TextView tv = (TextView) vRow.findViewById(R.id.tvRow);
-            tv.setText(metadata[i]);
+            tv.setText(s + s2);
 
             CheckBox cb = (CheckBox) vRow.findViewById(R.id.cbRow);
             cb.setChecked(false);

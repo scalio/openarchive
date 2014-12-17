@@ -10,8 +10,9 @@ import io.scal.openarchive.Globals;
  */
 @Database(version = Globals.DATABASE_VERSION)
 public class OpenArchiveDatabase {
-
-    /** Table Definition        Reference Name                        SQL Tablename */
-    @Table(UserTable.class)      public static final String USER        = "user";
-    @Table(MediaTable.class)     public static final String MEDIA       = "media";
+    /** Table Definition                    Reference Name                                  SQL Tablename */
+    @Table(UserTable.class)                 public static final String USER                 = "user";
+    @Table(MediaTable.class)                public static final String MEDIA                = "media";
+    @Table(MetadataTable.class)             public static final String METADATA             = "metadata";
+    @Table(MediaMetadataSTVTable.class)     public static final String MEDIA_METADATA_STV   = "media_metadata_stv";
 }

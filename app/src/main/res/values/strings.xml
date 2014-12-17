@@ -4,9 +4,11 @@
     <!-- Activities -->
     <string name="app_name">Open Archive</string>
     <string name="title_activity_main">Capture Media</string>
+    <string name="title_activity_login">Login</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_first_start">First Start</string>
     <string name="title_activity_view_media">View Media</string>
+    <string name="title_activity_archive_metadata">Metadata</string>
 
     <!-- General -->
     <string name="lblSubmit">Submit Media</string>
@@ -21,6 +23,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+
     <string-array name="ar_title_menu_sections">
         <item>Home</item>
         <item>Logout</item>
@@ -58,5 +61,23 @@
 
     <!-- Errors -->
     <string name="error_on_activity_result">File not found</string>
+
+    <!-- Server -->
+    <string name="lbl_Yes">Yes</string>
+    <string name="lbl_Cancel">Cancel</string>
+    <string name="lbl_off">Off</string>
+    <string name="lbl_on">On</string>
+    <string name="lbl_ok">OK</string>
+    <string name="lbl_settings">Settings</string>
+    <string name="lbl_cancelled">Canceled</string>
+    <string name="lbl_success">Success</string>
+    <string name="lbl_continue">Continue</string>
+    <string name="archive_title">Email Confimation</string>
+    <string name="archive_message">Please confirm your email and return to connect your Archive account.</string>
+    <string name="archive_license_by" translatable="false"><a href="https://creativecommons.org/licenses/by/4.0/">Attribution</a></string>
+    <string name="archive_license_bysa" translatable="false"><a href="https://creativecommons.org/licenses/by-sa/4.0/">Attribution-ShareAlike</a></string>
+    <string name="archive_license_byncnd" translatable="false"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivs</a></string>
+    <string name="upload_to_internet_archive">Upload to Internet Archive</string>
+    <string name="upload_securely_via_tor">Upload Securely via Tor</string>
 
 </resources>

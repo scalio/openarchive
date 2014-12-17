@@ -14,7 +14,6 @@ import static net.simonvt.schematic.annotation.DataType.Type.INTEGER;
 import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
 
 public interface MediaTable {
-
     /** SQL type        Modifiers                   Reference Name            SQL Column Name */
     @DataType(INTEGER)  @PrimaryKey @AutoIncrement  String id               = "_id";
     @DataType(INTEGER)  @NotNull                    String userId           = "user_id";
