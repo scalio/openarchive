@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = sp.getBoolean(PREF_FIRST_RUN, true);
-        // if first time user is in app
+        // if first time running app
         if (isFirstRun) {
             initFirstRun(sp);
         }

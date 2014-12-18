@@ -5,20 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_margin="20dp">
     <TextView
-        android:id="@+id/tvRow"
-        android:layout_width="0dp"
+        android:id="@+id/tvRowLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:paddingRight="12dp"/>
+
+    <TextView
+        android:id="@+id/tvRowDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"/>
-
-    <CheckBox
-        android:id="@+id/cbRow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_toRightOf="@id/tvRow"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:checked="false"/>
 </TableRow>

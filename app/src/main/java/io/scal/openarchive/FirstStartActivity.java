@@ -3,15 +3,20 @@ package io.scal.openarchive;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import io.scal.openarchive.EulaActivity.OnEulaAgreedTo;
 import io.scal.openarchive.server.ArchiveLoginActivity;
@@ -28,6 +33,8 @@ import io.scal.openarchive.server.ArchiveLoginActivity;
  * @author micahjlucas
  */
 public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
+
+    private static final String TAG = "FirstStartActivity";
 
     private boolean mTosAccepted;
     private Button mTosButton;
@@ -70,7 +77,7 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
 
     public void onSignupButtonClick(View v) {
         if (assertTosAccepted()) {
-            Intent loginIntent = new Intent(this, ArchiveLoginActivity.class);
+            Intent loginIntent = new Intent(this, MainActivity.class);
             //put flag for signup
             loginIntent.putExtra("url_code", 1);
             startActivity(loginIntent);
@@ -121,5 +128,47 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
         mTosAccepted = true;
         markTosButtonAccepted();
     }
+
+    /*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        Log.d(TAG, "onActivityResult, requestCode:" + requestCode + ", resultCode: " + resultCode);
+
+        String path = null;
+        if (resultCode == RESULT_OK) {
+            if(requestCode == Globals.REQUEST_VIDEO_CAPTURE) {
+                Uri uri = intent.getData();
+                path = getRealPathFromURI(getApplicationContext(), uri);
+                Log.d(TAG, "onActivityResult, video path:" + path);
+
+            } else if(requestCode == Globals.REQUEST_IMAGE_CAPTURE) {
+                path = this.getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(Globals.EXTRA_FILE_LOCATION, null);
+                Log.d(TAG, "onActivityResult, path:" + path);
+
+            } else if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
+                Uri uri = intent.getData();
+                path = getRealPathFromURI(getApplicationContext(), uri);
+                Log.d(TAG, "onActivityResult, audio path:" + path);
+
+            } else if (requestCode == Globals.REQUEST_FILE_IMPORT) {
+                Uri uri = intent.getData();
+                // Will only allow stream-based access to files
+                if (Build.VERSION.SDK_INT >= 19) {
+                    getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+
+                path = getRealPathFromURI(getApplicationContext(), uri);
+                Log.d(TAG, "onActivityResult, imported file path:" + path);
+            }
+
+            if (null == path) {
+                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+                startActivity(viewMediaIntent);
+            } else {
+                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
+                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
 }
 

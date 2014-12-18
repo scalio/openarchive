@@ -115,6 +115,7 @@ public class Util {
         }
     }
 
+    //called the first time the app runs to add values to the db
     public static void initDB(Context context) {
         Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
 

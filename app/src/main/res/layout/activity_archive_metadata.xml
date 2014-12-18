@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="Share your Metadata:"
+            android:text="@string/lbl_share_prefs"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
@@ -50,18 +50,9 @@
             android:id="@+id/tv_title_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_title"
-            android:paddingBottom="4dp"
             android:text="Title" />
-
-        <TextView
-            android:id="@+id/tv_title_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title_lbl"
-            android:layout_toRightOf="@+id/iv_title"
-            android:text="Micah&apos;s Story"
-            android:textColor="@android:color/tertiary_text_dark" />
 
         <Switch
             android:id="@+id/tb_title"
@@ -97,17 +88,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_description"
-            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
             android:text="Description" />
-
-        <TextView
-            android:id="@+id/tv_description_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_description_lbl"
-            android:layout_toRightOf="@+id/iv_description"
-            android:text="This is the long form description of this piece of media."
-            android:textColor="@android:color/tertiary_text_dark" />
 
         <Switch
             android:id="@+id/tb_description"
@@ -143,17 +125,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_author"
-            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
             android:text="Author" />
-
-        <TextView
-            android:id="@+id/tv_author_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_author_lbl"
-            android:layout_toRightOf="@+id/iv_author"
-            android:text="Micah Lucas"
-            android:textColor="@android:color/tertiary_text_dark" />
 
         <Switch
             android:id="@+id/tb_author"
@@ -189,17 +162,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_location"
-            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
             android:text="Location" />
-
-        <TextView
-            android:id="@+id/tv_location_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_location_lbl"
-            android:layout_toRightOf="@+id/iv_location"
-            android:text="Oakland, CA"
-            android:textColor="@android:color/tertiary_text_dark" />
 
         <Switch
             android:id="@+id/tb_location"
@@ -235,20 +199,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_tags"
-            android:paddingBottom="4dp"
+            android:layout_centerVertical="true"
             android:text="Tags" />
-
-        <TextView
-            android:id="@+id/tv_tags_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_tags_lbl"
-            android:layout_toRightOf="@+id/iv_tags"
-            android:text="#video, #breakingnews, #iraq"
-            android:textColor="@android:color/tertiary_text_dark" />
 
         <Switch
             android:id="@+id/tb_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textOff="@string/lbl_off"
+            android:textOn="@string/lbl_on" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
+
+        <ImageView
+            android:id="@+id/use_tor"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:paddingRight="8dp"
+            android:src="@drawable/ic_action_emo_basic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/use_tor"
+            android:layout_centerVertical="true"
+            android:text="Use Tor" />
+
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -321,12 +311,14 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
-        android:id="@+id/buttonSubmit"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnSave"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:text="@string/upload_to_internet_archive" />
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/lblSave"
+        android:textSize="14sp" />
 
 </LinearLayout>
 </ScrollView>

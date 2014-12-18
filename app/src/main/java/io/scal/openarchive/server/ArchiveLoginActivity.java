@@ -1,5 +1,6 @@
 package io.scal.openarchive.server;
 
+import io.scal.openarchive.Globals;
 import io.scal.openarchive.Util;
 import io.scal.openarchive.R;
 
@@ -164,8 +165,8 @@ public class ArchiveLoginActivity extends Activity {
 		Log.d(TAG, "finish()");
 		
 		Intent data = new Intent();
-		data.putExtra(SiteController.EXTRAS_KEY_USERNAME, mAccessKey);
-		data.putExtra(SiteController.EXTRAS_KEY_CREDENTIALS, mSecretKey);
+		data.putExtra(Globals.EXTRA_ACCESS_KEY, mAccessKey);
+		data.putExtra(Globals.EXTRA_SECRET_KEY, mSecretKey);
 		setResult(mAccessResult, data);
 		
 		super.finish();		

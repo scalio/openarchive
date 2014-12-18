@@ -11,7 +11,9 @@
     <string name="title_activity_archive_metadata">Metadata</string>
 
     <!-- General -->
-    <string name="lblSubmit">Submit Media</string>
+    <string name="lblUpload">UPLOAD MEDIA</string>
+    <string name="lblEditMetadata">EDIT METADATA</string>
+    <string name="lblSave">SAVE</string>
     <string name="loading_title">Uploading</string>
     <string name="loading_message">Please wait...</string>
 
@@ -79,5 +81,6 @@
     <string name="archive_license_byncnd" translatable="false"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivs</a></string>
     <string name="upload_to_internet_archive">Upload to Internet Archive</string>
     <string name="upload_securely_via_tor">Upload Securely via Tor</string>
+    <string name="lbl_share_prefs">Sharing Preferences</string>
 
 </resources>

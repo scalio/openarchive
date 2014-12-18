@@ -34,7 +34,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
     }
 
     private void init() {
-
         Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
         Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
 
@@ -42,27 +41,41 @@ public class ReviewMediaActivity extends ActionBarActivity {
         ivMedia.setImageDrawable(getResources().getDrawable(R.drawable.tunisia_sky));
 
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
+
+        //TODO
+        String[] testDesc = {"Yes", "The picture", "This is a description of the media.", "Micah Lucas", "San Francisco, CA", "tag 1, tag 2, tag 3"};
+        int i = 0;
+
+
         while (result.moveToNext()) {
-            String s = result.getString(0);
-            String s2 = result.getString(1);
+            String label = result.getString(1);
+            String desc = testDesc[i++];
 
             View vRow = getLayoutInflater().inflate(R.layout.row_media_metadata, null);
 
-            TextView tv = (TextView) vRow.findViewById(R.id.tvRow);
-            tv.setText(s + s2);
+            TextView tvRowLabel = (TextView) vRow.findViewById(R.id.tvRowLabel);
+            tvRowLabel.setText(label);
 
-            CheckBox cb = (CheckBox) vRow.findViewById(R.id.cbRow);
-            cb.setChecked(false);
+            TextView tvRowDesc = (TextView) vRow.findViewById(R.id.tvRowDesc);
+            tvRowDesc.setText(desc);
 
             tblMediaMetadata.addView(vRow);
         }
 
-        Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        Button btnEditMetadata = (Button) findViewById(R.id.btnEditMetadata);
+        btnEditMetadata.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent settingsIntent = new Intent(mContext, MainActivity.class);
-                MainActivity.SHOULD_SPIN = true;
+                Intent settingsIntent = new Intent(mContext, ArchiveSettingsActivity.class);
                 startActivity(settingsIntent);
+            }
+        });
+
+        Button btnUpload = (Button) findViewById(R.id.btnUpload);
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent uploadIntent = new Intent(mContext, MainActivity.class);
+                MainActivity.SHOULD_SPIN = true;
+                startActivity(uploadIntent);
             }
         });
     }

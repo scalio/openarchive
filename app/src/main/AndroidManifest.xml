@@ -43,15 +43,6 @@
             android:label="@string/title_activity_first_start" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SettingsTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.scal.openarchive.MainActivity" />
-        </activity>
-        <activity
             android:name=".ReviewMediaActivity"
             android:label="@string/title_activity_view_media"
             android:parentActivityName=".MainActivity" >
@@ -61,16 +52,17 @@
         </activity>
         <activity
             android:name=".ArchiveSettingsActivity"
-            android:label="@string/title_activity_archive_metadata" >
-            android:parentActivityName=".ViewMediaActivity"
+            android:label="@string/title_activity_archive_metadata"
+            android:parentActivityName=".ReviewMediaActivity"
+            android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ReviewMediaActivity" />
         </activity>
         <activity
             android:name=".server.ArchiveLoginActivity"
-            android:label="@string/title_activity_login" >
-            android:parentActivityName=".FirstStartActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".FirstStartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.scal.openarchive.FirstStartActivity" />

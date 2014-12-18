@@ -1,6 +1,10 @@
-<RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -20,16 +24,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivMedia"
-        android:stretchColumns="1"/>
+        android:shrinkColumns="1"
+        android:stretchColumns="0"/>
 
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnEditMetadata"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/tblMediaMetadata"
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="@string/lblSubmit"
+        android:text="@string/lblEditMetadata"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnEditMetadata"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/lblUpload"
         android:textSize="14sp" />
 </RelativeLayout>
+</ScrollView>

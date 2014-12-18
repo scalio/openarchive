@@ -26,6 +26,10 @@ public class Globals {
     public static final String EXTRA_FILE_LOCATION   = "FILE_LOCATION";
     public static final String PREFS_CALLING_CARD_ID = "PREFS_CALLING_CARD_ID";
 
+    // intent extras used for login/signup
+    public static final String EXTRA_ACCESS_KEY     = "EXTRA_ACCESS_KEY";
+    public static final String EXTRA_SECRET_KEY     = "EXTRA_SECRET_KEY";
+
     // medium values
     public static final String AUDIO = "audio";
     public static final String PHOTO = "photo";

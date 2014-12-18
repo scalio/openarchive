@@ -35,7 +35,7 @@ public class ArchiveSettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_archive_metadata);
-		Button btnSubmit = (Button) findViewById(R.id.buttonSubmit);
+		Button btnSave = (Button) findViewById(R.id.btnSave);
 
         final Switch title = (Switch) findViewById(R.id.tb_title);
         final Switch description = (Switch) findViewById(R.id.tb_description);
@@ -60,22 +60,6 @@ public class ArchiveSettingsActivity extends Activity {
 		final TextView tvCCLicenseLink = (TextView) findViewById(R.id.tv_cc_license);
 		tvCCLicenseLink.setMovementMethod(LinkMovementMethod.getInstance());	
     	setCCLicenseText(rgLicense.getCheckedRadioButtonId(), tvCCLicenseLink);
-    
-		//set default text
-        final TextView tvtitle = (TextView) findViewById(R.id.tv_title_desc);
-        tvtitle.setText(extras.getString(SiteController.VALUE_KEY_TITLE, "(No title shared)"));
-                
-        final TextView tvdescription = (TextView) findViewById(R.id.tv_description_desc);
-        tvdescription.setText(extras.getString(SiteController.VALUE_KEY_BODY, "(No description shared)"));
-        
-        final TextView tvauthor = (TextView) findViewById(R.id.tv_author_desc);
-        tvauthor.setText(extras.getString(SiteController.VALUE_KEY_AUTHOR, "(No author shared)"));
-        
-        final TextView tvtags = (TextView) findViewById(R.id.tv_tags_desc);
-        tvtags.setText(extras.getString(SiteController.VALUE_KEY_TAGS, "(No tags shared)"));
-        
-        final TextView tvlocation = (TextView) findViewById(R.id.tv_location_desc);
-        tvlocation.setText(extras.getString(SiteController.VALUE_KEY_LOCATION_NAME, "(No location shared)"));
         
         rgLicense.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -84,7 +68,7 @@ public class ArchiveSettingsActivity extends Activity {
             }
         });
         
-        btnSubmit.setOnClickListener(new OnClickListener() {
+        btnSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {        
 				String licenseUrl = null;
