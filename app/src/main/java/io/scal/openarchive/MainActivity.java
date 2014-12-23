@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,9 +21,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
-
-import io.scal.openarchive.database.MetadataTable;
-import io.scal.openarchive.database.OpenArchiveContentProvider;
 
 
 public class MainActivity extends ActionBarActivity
@@ -181,14 +179,18 @@ public class MainActivity extends ActionBarActivity
                 path = getRealPathFromURI(getApplicationContext(), uri);
                 Log.d(TAG, "onActivityResult, imported file path:" + path);
             }
-
-            if (null == path) {
-                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-                startActivity(viewMediaIntent);
-            } else {
-                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
-                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
-            }
+//
+//            if (null == path) {
+//                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+//                viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
+//                startActivity(viewMediaIntent);
+//            } else {
+//                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
+//                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
+//            }
+            Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+            viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
+            startActivity(viewMediaIntent);
         }
     }
 
@@ -218,5 +220,25 @@ public class MainActivity extends ActionBarActivity
 
         // iniialize db
         Util.initDB(this);
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter f = new IntentFilter();
+        f.addAction(PublishService.ACTION_PUBLISH_SUCCESS);
+        f.addAction(PublishService.ACTION_PUBLISH_FAILURE);
+        f.addAction(PublishService.ACTION_JOB_SUCCESS);
+        f.addAction(PublishService.ACTION_JOB_FAILURE);
+        f.addAction(PublishService.ACTION_PROGRESS);
+        getActivity().registerReceiver(publishReceiver, f);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(publishReceiver);
     }
 }

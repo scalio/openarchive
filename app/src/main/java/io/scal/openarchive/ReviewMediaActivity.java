@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import io.scal.openarchive.database.MetadataTable;
 import io.scal.openarchive.database.OpenArchiveContentProvider;
@@ -24,11 +25,18 @@ import io.scal.openarchive.database.OpenArchiveContentProvider;
 
 public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
+    String mFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_media);
+
+        mFilePath = getIntent().getStringExtra(Constants.INTENT_EXTRA_FILE_PATH);
+        if (mFilePath == null) {
+            Toast.makeText(this, "No Picture Found!", Toast.LENGTH_LONG);
+            finish();
+        }
 
         init();
     }
@@ -38,7 +46,8 @@ public class ReviewMediaActivity extends ActionBarActivity {
         Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
 
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
-        ivMedia.setImageDrawable(getResources().getDrawable(R.drawable.tunisia_sky));
+//        ivMedia.setImageDrawable(getResources().getDrawable(R.drawable.tunisia_sky));
+        ivMedia.setImageURI(Uri.parse(mFilePath));
 
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
 
