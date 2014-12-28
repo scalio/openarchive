@@ -1,3 +1,4 @@
 include ':app'
 include ':external:SecureShareLib:SecureShareUILibrary'
 include ':external:SecureShareLib:SecureShareUILibrary:external:facebook-sdk:facebook'
+include ':external:NetCipher:libnetcipher'
