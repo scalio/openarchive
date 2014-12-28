@@ -83,7 +83,7 @@ public class ReviewMediaActivity extends ActionBarActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent uploadIntent = new Intent(mContext, MainActivity.class);
-                MainActivity.SHOULD_SPIN = true;
+                MainActivity.SHOULD_SPIN = true; // FIXME we cannot rely on statics to do inter activity communication
                 startActivity(uploadIntent);
             }
         });

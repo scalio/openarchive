@@ -16,7 +16,6 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
-import io.scal.openarchive.server.SiteController;
 import io.scal.openarchive.R;
 
 public class ArchiveSettingsActivity extends Activity {

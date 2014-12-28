@@ -47,12 +47,8 @@
     <string name="tos_dialog_positive_button">Got it</string>
 
     <!-- FirstStartActivity -->
-    <string name="sign_up_btn">SIGN UP FOR OPEN ARCHIVE</string>
-    <string name="login_btn">LOGIN TO OPEN ARCHIVE</string>
-    <string name="tos_btn">I AGREE TO THE TERMS OF SERVICE</string>
-    <string name="acct_created_dialog_title">Access your Account</string>
-    <string name="acct_created_dialog_msg"><b>Your StoryMaker password will be emailed to you shortly.</b> After obtaining your password, you may login at any time via the drawer menu (Accessed by swiping from the left screen edge).</string>
-    <string name="acct_created_dialog_positive_button">Get Started!</string>
+    <string name="sign_up_btn">Signup / Login</string>
+    <string name="tos_btn">I agree to the terms of service.</string>
 
     <!-- MainFragment -->
     <string name="import_btn">IMPORT</string>
@@ -82,5 +78,6 @@
     <string name="upload_to_internet_archive">Upload to Internet Archive</string>
     <string name="upload_securely_via_tor">Upload Securely via Tor</string>
     <string name="lbl_share_prefs">Sharing Preferences</string>
+    <string name="problem_authticating">There was a problem authenticating with Internet Archive.</string>
 
 </resources>

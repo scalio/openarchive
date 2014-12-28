@@ -60,7 +60,7 @@
                 android:value=".ReviewMediaActivity" />
         </activity>
         <activity
-            android:name=".server.ArchiveLoginActivity"
+            android:name="io.scal.secureshareui.login.ArchiveLoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".FirstStartActivity">
             <meta-data

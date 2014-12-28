@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import io.scal.secureshareui.model.Account;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -44,6 +46,7 @@ public class MainActivity extends ActionBarActivity
             Intent firstStartIntent = new Intent(this, FirstStartActivity.class);
             firstStartIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(firstStartIntent);
+            finish();
         }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -52,6 +55,9 @@ public class MainActivity extends ActionBarActivity
         if (isFirstRun) {
             initFirstRun(sp);
         }
+
+        Account account = new Account(this, null);
+        Toast.makeText(this, "Username: " + account.getUserName() + ", credentials: " + account.getCredentials(), Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_main);
 
@@ -220,25 +226,5 @@ public class MainActivity extends ActionBarActivity
 
         // iniialize db
         Util.initDB(this);
-    }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        IntentFilter f = new IntentFilter();
-        f.addAction(PublishService.ACTION_PUBLISH_SUCCESS);
-        f.addAction(PublishService.ACTION_PUBLISH_FAILURE);
-        f.addAction(PublishService.ACTION_JOB_SUCCESS);
-        f.addAction(PublishService.ACTION_JOB_FAILURE);
-        f.addAction(PublishService.ACTION_PROGRESS);
-        getActivity().registerReceiver(publishReceiver, f);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(publishReceiver);
     }
 }

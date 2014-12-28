@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import io.scal.openarchive.EulaActivity.OnEulaAgreedTo;
-import io.scal.openarchive.server.ArchiveLoginActivity;
+import io.scal.secureshareui.controller.ArchiveSiteController;
+import io.scal.secureshareui.controller.SiteController;
+import io.scal.secureshareui.model.Account;
 
 /**
  * Prompt the user to view & agree to the StoryMaker TOS / EULA
@@ -35,6 +38,28 @@ import io.scal.openarchive.server.ArchiveLoginActivity;
 public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
 
     private static final String TAG = "FirstStartActivity";
+
+    private SiteController.OnEventListener mAuthEventListener = new SiteController.OnEventListener() {
+
+        @Override
+        public void onSuccess(Account account) {
+            account.saveToSharedPrefs(FirstStartActivity.this, null);
+        }
+
+        @Override
+        public void onFailure(Account account, String failureMessage) {
+            // TODO we should invalidate the locally saved credentials rather than just clearing them
+            account.setCredentials(null);
+            account.setIsConnected(false);
+            account.saveToSharedPrefs(FirstStartActivity.this, null);
+        }
+
+        @Override
+        public void onRemove(Account account) {
+            Account.clearSharedPreferences(FirstStartActivity.this, null);
+            // FIXME do we need to do somehting to clear cookies in the webview? or is that handled for us?
+        }
+    };
 
     private boolean mTosAccepted;
     private Button mTosButton;
@@ -78,18 +103,10 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
     public void onSignupButtonClick(View v) {
         if (assertTosAccepted()) {
             Intent loginIntent = new Intent(this, MainActivity.class);
-            //put flag for signup
-            loginIntent.putExtra("url_code", 1);
-            startActivity(loginIntent);
-        }
-    }
-
-    public void onLoginButtonClick(View v) {
-        if (assertTosAccepted()) {
-            Intent loginIntent = new Intent(this, MainActivity.class);
-            //put flag for login
-            loginIntent.putExtra("url_code", 0);
-            startActivity(loginIntent);
+            SiteController siteController = SiteController.getSiteController(ArchiveSiteController.SITE_KEY, this, null, null);
+            siteController.setOnEventListener(mAuthEventListener);
+            Account account = new Account(this, null);
+            siteController.startAuthentication(account);
         }
     }
 
@@ -127,6 +144,45 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
     public void onEulaAgreedTo() {
         mTosAccepted = true;
         markTosButtonAccepted();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        super.onActivityResult(requestCode, resultCode, intent); // FIXME do we really need to call up to the super?
+        if (requestCode == SiteController.CONTROLLER_REQUEST_CODE) {
+            if (resultCode == android.app.Activity.RESULT_OK) {
+                Account mAccount = new Account(this, null);
+                String credentials = intent.getStringExtra(SiteController.EXTRAS_KEY_CREDENTIALS);
+                mAccount.setCredentials(credentials != null ? credentials : "");
+
+                String username = intent.getStringExtra(SiteController.EXTRAS_KEY_USERNAME);
+                mAccount.setUserName(username != null ? username : "");
+
+                String data = intent.getStringExtra(SiteController.EXTRAS_KEY_DATA);
+                mAccount.setData(data != null ? data : null);
+
+                mAccount.setAreCredentialsValid(true);
+                mAccount.saveToSharedPrefs(this, null);
+
+                // TODO move login retries out of the fragment into something reusable
+//                if (mAttemptingLoginRetry) {
+//                    mContainerConnectedAccountsView.removeView(mVgAccounts);
+//                    addConnectedAccount(mAccount, true);
+//                }
+//                else {
+//                    addConnectedAccount(mAccount, true);
+//                    mContainerAvailableAccountsView.removeView(mVgAccounts);
+//
+//                    If there are no rows remaining, show the empty view.
+//                    if (mContainerAvailableAccountsView.getChildCount() == 0) {
+//                        mView.findViewById(io.scal.secureshareuilibrary.R.id.tv_accounts_available_empty).setVisibility(View.VISIBLE);
+//                    }
+//                }
+            } else {
+                Toast.makeText(this, getString(R.string.problem_authticating), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /*
