@@ -22,7 +22,7 @@ import android.webkit.WebView;
 import io.scal.openarchive.database.MetadataTable;
 import io.scal.openarchive.database.OpenArchiveContentProvider;
 
-public class Util {
+public class Utils {
 
     // netcipher
     public static final String ORBOT_HOST = "127.0.0.1";
@@ -125,6 +125,34 @@ public class Util {
             ContentValues metadataValues = new ContentValues();
             metadataValues.put(MetadataTable.name, value);
             context.getContentResolver().insert(uri, metadataValues);
+        }
+    }
+
+    public static boolean stringNotBlank(String string) {
+        return (string != null) && !string.equals("");
+    }
+
+    public static String stringArrayToCommaString(String[] strings) {
+        if (strings.length > 0) {
+            StringBuilder nameBuilder = new StringBuilder();
+
+            for (String n : strings) {
+                nameBuilder.append(n.replaceAll("'", "\\\\'")).append(",");
+            }
+
+            nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+
+            return nameBuilder.toString();
+        } else {
+            return "";
+        }
+    }
+
+    public static String[] commaStringToStringArray(String string) {
+        if (string != null) {
+            return string.split(",");
+        } else {
+            return null;
         }
     }
 }

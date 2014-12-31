@@ -225,6 +225,6 @@ public class MainActivity extends ActionBarActivity
         sp.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 
         // iniialize db
-        Util.initDB(this);
+        Utils.initDB(this);
     }
 }

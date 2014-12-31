@@ -31,7 +31,9 @@ public class Globals {
     public static final String EXTRA_SECRET_KEY     = "EXTRA_SECRET_KEY";
 
     // medium values
-    public static final String AUDIO = "audio";
+    public static final String AUDIO = "audio"; //TODO may be Audio instead of audio
     public static final String PHOTO = "photo";
     public static final String VIDEO = "video";
+
+    public final static String SITE_ARCHIVE = "archive"; //Text, Audio, Photo, Video
 }
