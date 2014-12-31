@@ -1,3 +1,6 @@
 [submodule "external/SecureShareLib"]
 	path = external/SecureShareLib
 	url = https://github.com/scalio/SecureShareLib.git
+[submodule "external/NetCipher"]
+	path = external/NetCipher
+	url = https://github.com/scalio/NetCipher.git
