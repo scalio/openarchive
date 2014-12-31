@@ -21,39 +21,29 @@ import io.scal.openarchive.R;
 public class ArchiveSettingsActivity extends Activity {
     public static final String TAG = "ArchiveMetadataActivity";
     
-    public static final String INTENT_EXTRA_SHARE_TITLE = "archive-share-title";
-    public static final String INTENT_EXTRA_SHARE_DESCRIPTION = "archive-share-description";
-    public static final String INTENT_EXTRA_SHARE_AUTHOR = "archive-share-author";
-    public static final String INTENT_EXTRA_SHARE_TAGS = "archive-share-tags";
-    public static final String INTENT_EXTRA_SHARE_LOCATION = "archive-share-location";
-    public static final String INTENT_EXTRA_LICENSE_URL = "archive-share-license-url";
-    
-    public static final String PREF_FILE_KEY = "archive_metadata_key";
-    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_archive_metadata);
 		Button btnSave = (Button) findViewById(R.id.btnSave);
 
-        final Switch title = (Switch) findViewById(R.id.tb_title);
-        final Switch description = (Switch) findViewById(R.id.tb_description);
-        final Switch author = (Switch) findViewById(R.id.tb_author);
-        final Switch tags = (Switch) findViewById(R.id.tb_tags);
-        final Switch location = (Switch) findViewById(R.id.tb_location);
+        final Switch swTitle = (Switch) findViewById(R.id.tb_title);
+        final Switch swDescription = (Switch) findViewById(R.id.tb_description);
+        final Switch swAuthor = (Switch) findViewById(R.id.tb_author);
+        final Switch swTags = (Switch) findViewById(R.id.tb_tags);
+        final Switch swLocation = (Switch) findViewById(R.id.tb_location);
+        final Switch swUseTor = (Switch) findViewById(R.id.tb_use_tor);
         final RadioGroup rgLicense = (RadioGroup) findViewById(R.id.radioGroupCC);
 
-        final Intent i = getIntent();
-        Bundle extras = new Bundle(); //TODO should be i.getExtras()
-        
         //set defaults based on previous selections
-        final SharedPreferences sharedPref = this.getSharedPreferences(PREF_FILE_KEY, Context.MODE_PRIVATE); 
-		title.setChecked(sharedPref.getBoolean(INTENT_EXTRA_SHARE_TITLE, true));
-		description.setChecked(sharedPref.getBoolean(INTENT_EXTRA_SHARE_DESCRIPTION, false));
-		author.setChecked(sharedPref.getBoolean(INTENT_EXTRA_SHARE_AUTHOR, false));
-		tags.setChecked(sharedPref.getBoolean(INTENT_EXTRA_SHARE_TAGS, false));
-		location.setChecked(sharedPref.getBoolean(INTENT_EXTRA_SHARE_LOCATION, false));
-		rgLicense.check(sharedPref.getInt(INTENT_EXTRA_LICENSE_URL, R.id.radioByNcNd));
+        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        swTitle.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true));
+		swDescription.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false));
+		swAuthor.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false));
+		swTags.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false));
+		swLocation.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false));
+        swUseTor.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false));
+		rgLicense.check(sharedPref.getInt(Globals.INTENT_EXTRA_LICENSE_URL, R.id.radioByNcNd));
 		
 		//set up ccLicense link
 		final TextView tvCCLicenseLink = (TextView) findViewById(R.id.tv_cc_license);
@@ -79,25 +69,30 @@ public class ArchiveSettingsActivity extends Activity {
 		        } else { // ByNcNd is default
 		            licenseUrl = "http://creativecommons.org/licenses/by-nc-nd/4.0/";
 		        }
-		        
-		        //save defaults for future selections
+
+                final Intent i = getIntent();
+
+                //save defaults for future selections
 		        SharedPreferences.Editor editor = sharedPref.edit();
-		        editor.putBoolean(INTENT_EXTRA_SHARE_TITLE, title.isChecked());
-		        editor.putBoolean(INTENT_EXTRA_SHARE_DESCRIPTION, description.isChecked());
-		        editor.putBoolean(INTENT_EXTRA_SHARE_AUTHOR, author.isChecked());
-		        editor.putBoolean(INTENT_EXTRA_SHARE_TAGS, tags.isChecked());
-		        editor.putBoolean(INTENT_EXTRA_SHARE_LOCATION, location.isChecked());
-		        editor.putInt(INTENT_EXTRA_LICENSE_URL, licenseId);
+		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, swTitle.isChecked());
+		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, swDescription.isChecked());
+		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, swAuthor.isChecked());
+		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, swTags.isChecked());
+		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, swLocation.isChecked());
+                editor.putBoolean(Globals.INTENT_EXTRA_USE_TOR, swUseTor.isChecked());
+		        editor.putInt(Globals.INTENT_EXTRA_LICENSE_URL, licenseId);
 		        editor.apply();
-		        
+
 		        //store data to send with intent
-                i.putExtra(INTENT_EXTRA_SHARE_TITLE, title.isChecked());
-                i.putExtra(INTENT_EXTRA_SHARE_DESCRIPTION, description.isChecked());
-                i.putExtra(INTENT_EXTRA_SHARE_AUTHOR, author.isChecked());
-                i.putExtra(INTENT_EXTRA_SHARE_TAGS, tags.isChecked());
-                i.putExtra(INTENT_EXTRA_SHARE_LOCATION, location.isChecked());
-                i.putExtra(INTENT_EXTRA_LICENSE_URL, licenseUrl);
-				setResult(Activity.RESULT_OK, i);
+                /*
+                i.putExtra(Globals.INTENT_EXTRA_SHARE_TITLE, swTitle.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, swDescription.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_SHARE_AUTHOR, swAuthor.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_SHARE_TAGS, swTags.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_SHARE_LOCATION, swLocation.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_USE_TOR, swUseTor.isChecked());
+                i.putExtra(Globals.INTENT_EXTRA_LICENSE_URL, licenseUrl);
+				setResult(Activity.RESULT_OK, i);*/
 				
 				finish();
 			}

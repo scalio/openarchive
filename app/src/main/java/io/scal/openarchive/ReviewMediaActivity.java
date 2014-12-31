@@ -2,6 +2,7 @@ package io.scal.openarchive;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.media.RemoteControlClient;
@@ -18,6 +19,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import io.scal.openarchive.database.MetadataTable;
 import io.scal.openarchive.database.OpenArchiveContentProvider;
@@ -46,9 +49,11 @@ public class ReviewMediaActivity extends ActionBarActivity {
         Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
 
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
-        //ivMedia.setImageURI(Uri.parse(mFilePath));
+        ivMedia.setImageURI(Uri.parse(mFilePath));
 
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
+
+        Boolean[] arPermissions = getMetadataPermissions();
 
         //TODO
         String[] testDesc = {"Yes", "The picture", "This is a description of the media.", "Micah Lucas", "San Francisco, CA", "tag 1, tag 2, tag 3"};
@@ -56,6 +61,12 @@ public class ReviewMediaActivity extends ActionBarActivity {
 
 
         while (result.moveToNext()) {
+
+            //if user has selected not to upload this specific metadata
+            if(!arPermissions[i]) {
+                break;
+            }
+
             String label = result.getString(1);
             String desc = testDesc[i++];
 
@@ -86,5 +97,21 @@ public class ReviewMediaActivity extends ActionBarActivity {
                 startActivity(uploadIntent);
             }
         });
+    }
+
+    private Boolean[] getMetadataPermissions() {
+        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+
+        ArrayList<Boolean> alPermissions = new ArrayList<Boolean>();
+
+        //TODO pull this from DB instead of prefs - but for now **ORDER DOES MATTER***
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false));
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true));
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false));
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false));
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false));
+        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false));
+
+        return (Boolean[]) alPermissions.toArray();
     }
 }

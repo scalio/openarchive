@@ -224,7 +224,7 @@
         android:paddingTop="4dp" >
 
         <ImageView
-            android:id="@+id/use_tor"
+            android:id="@+id/iv_use_tor"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -234,11 +234,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/use_tor"
+            android:layout_toRightOf="@+id/iv_use_tor"
             android:layout_centerVertical="true"
             android:text="Use Tor" />
 
         <Switch
+            android:id="@+id/tb_use_tor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

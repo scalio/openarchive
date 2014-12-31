@@ -26,6 +26,17 @@ public class Globals {
     public static final String EXTRA_FILE_LOCATION   = "FILE_LOCATION";
     public static final String PREFS_CALLING_CARD_ID = "PREFS_CALLING_CARD_ID";
 
+    // metadata prefs
+    public static final String PREF_FILE_KEY         = "archive_metadata_key";
+
+    public static final String INTENT_EXTRA_USE_TOR = "archive-use-tor";
+    public static final String INTENT_EXTRA_SHARE_TITLE = "archive-share-title";
+    public static final String INTENT_EXTRA_SHARE_DESCRIPTION = "archive-share-description";
+    public static final String INTENT_EXTRA_SHARE_AUTHOR = "archive-share-author";
+    public static final String INTENT_EXTRA_SHARE_TAGS = "archive-share-tags";
+    public static final String INTENT_EXTRA_SHARE_LOCATION = "archive-share-location";
+    public static final String INTENT_EXTRA_LICENSE_URL = "archive-share-license-url";
+
     // intent extras used for login/signup
     public static final String EXTRA_ACCESS_KEY     = "EXTRA_ACCESS_KEY";
     public static final String EXTRA_SECRET_KEY     = "EXTRA_SECRET_KEY";
