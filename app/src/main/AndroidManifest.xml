@@ -31,7 +31,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,12 +41,14 @@
         </activity>
         <activity
             android:name=".FirstStartActivity"
-            android:label="@string/title_activity_first_start" >
+            android:label="@string/title_activity_first_start"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ReviewMediaActivity"
             android:label="@string/title_activity_view_media"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.scal.openarchive.MainActivity" />
@@ -53,16 +56,14 @@
         <activity
             android:name=".ArchiveSettingsActivity"
             android:label="@string/title_activity_archive_metadata"
-            android:parentActivityName=".ReviewMediaActivity"
-            android:theme="@style/SettingsTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ReviewMediaActivity" />
+            android:theme="@style/SettingsTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="io.scal.secureshareui.login.ArchiveLoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".FirstStartActivity">
+            android:parentActivityName=".FirstStartActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.scal.openarchive.FirstStartActivity" />
