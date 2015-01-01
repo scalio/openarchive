@@ -28,7 +28,7 @@ import io.scal.openarchive.database.OpenArchiveContentProvider;
 
 public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
-    String mFilePath;
+    private static String mFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,15 @@ public class ReviewMediaActivity extends ActionBarActivity {
         setContentView(R.layout.activity_view_media);
 
         mFilePath = getIntent().getStringExtra(Constants.INTENT_EXTRA_FILE_PATH);
-        if (mFilePath == null) {
-            Toast.makeText(this, "No Picture Found!", Toast.LENGTH_LONG);
-            finish();
-        }
-
         init();
     }
 
     private void init() {
+        if (mFilePath == null) {
+            Toast.makeText(this, "No Media Found!", Toast.LENGTH_LONG);
+            finish();
+        }
+
         Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
         Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
 
@@ -52,19 +52,20 @@ public class ReviewMediaActivity extends ActionBarActivity {
         ivMedia.setImageURI(Uri.parse(mFilePath));
 
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
+        tblMediaMetadata.removeAllViews();
 
-        Boolean[] arPermissions = getMetadataPermissions();
+        boolean[] arPermissions = getMetadataPermissions();
 
         //TODO
-        String[] testDesc = {"Yes", "The picture", "This is a description of the media.", "Micah Lucas", "San Francisco, CA", "tag 1, tag 2, tag 3"};
+        String[] testDesc = {"Yes", "The Media Title", "This is a description of the media.", "Author Name", "San Francisco, CA", "tag 1, tag 2, tag 3"};
         int i = 0;
 
-
-        while (result.moveToNext()) {
+        while(result.moveToNext()) {
 
             //if user has selected not to upload this specific metadata
             if(!arPermissions[i]) {
-                break;
+                i++;
+                continue;
             }
 
             String label = result.getString(1);
@@ -99,19 +100,26 @@ public class ReviewMediaActivity extends ActionBarActivity {
         });
     }
 
-    private Boolean[] getMetadataPermissions() {
+    private boolean[] getMetadataPermissions() {
         final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
 
-        ArrayList<Boolean> alPermissions = new ArrayList<Boolean>();
+        boolean[] arPermissions = new boolean[6];
 
         //TODO pull this from DB instead of prefs - but for now **ORDER DOES MATTER***
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false));
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true));
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false));
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false));
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false));
-        alPermissions.add(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false));
+        arPermissions[0] = sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false);
+        arPermissions[1] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true);
+        arPermissions[2] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false);
+        arPermissions[3] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false);
+        arPermissions[4] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false);
+        arPermissions[5] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false);
 
-        return (Boolean[]) alPermissions.toArray();
+        return arPermissions;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        init();
     }
 }
