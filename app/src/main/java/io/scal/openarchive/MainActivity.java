@@ -185,26 +185,35 @@ public class MainActivity extends ActionBarActivity
                 path = getRealPathFromURI(getApplicationContext(), uri);
                 Log.d(TAG, "onActivityResult, imported file path:" + path);
             }
-//
-//            if (null == path) {
-//                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-//                viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
-//                startActivity(viewMediaIntent);
-//            } else {
-//                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
-//                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
-//            }
-            Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-            viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
-            startActivity(viewMediaIntent);
+
+            if (null != path) {
+                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+                viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
+                startActivity(viewMediaIntent);
+            } else {
+                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
+                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
+    public static String getRealPathFromURI(Context context, Uri contentUri) {
+        if (contentUri == null) {
+            return null;
+        }
+
         // work-around to handle normal paths
         if (contentUri.toString().startsWith(File.separator)) {
             return contentUri.toString();
         }
+
+        // work-around to handle normal paths
+        if (contentUri.toString().startsWith("file://")) {
+            return contentUri.toString().split("file://")[1];
+        }
+
+        // TODO deal with document providers
+        // path of form : content://com.android.providers.media.documents/document/video:183
 
         Cursor cursor = null;
         try {

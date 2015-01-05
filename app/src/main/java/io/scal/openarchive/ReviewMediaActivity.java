@@ -21,6 +21,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.android.Util;
+
 import java.util.ArrayList;
 
 import io.scal.openarchive.database.MetadataTable;
@@ -42,7 +44,7 @@ public class ReviewMediaActivity extends ActionBarActivity {
 
     private void init() {
         if (mFilePath == null) {
-            Toast.makeText(this, "No Media Found!", Toast.LENGTH_LONG);
+            Utils.toastOnUiThread(this, "No Media Found!");
             finish();
         }
 
@@ -97,38 +99,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
         } else {
             trTor.setVisibility(View.GONE);
         }
-
-        /*
-        TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
-        tblMediaMetadata.removeAllViews();
-
-        boolean[] arPermissions = getMetadataPermissions();
-
-        //TODO
-        String[] testDesc = {"Yes", "The Media Title", "This is a description of the media.", "Author Name", "San Francisco, CA", "tag 1, tag 2, tag 3"};
-        int i = 0;
-
-        while(result.moveToNext()) {
-
-            //if user has selected not to upload this specific metadata
-            if(!arPermissions[i]) {
-                i++;
-                continue;
-            }
-
-            String label = result.getString(1);
-            String desc = testDesc[i++];
-
-            View vRow = getLayoutInflater().inflate(R.layout.row_media_metadata, null);
-
-            TextView tvRowLabel = (TextView) vRow.findViewById(R.id.tvRowLabel);
-            tvRowLabel.setText(label);
-
-            EditText tvRowDesc = (EditText) vRow.findViewById(R.id.etRowDesc);
-            tvRowDesc.setHint(desc);
-
-            tblMediaMetadata.addView(vRow);
-        }*/
 
         Button btnEditMetadata = (Button) findViewById(R.id.btnEditMetadata);
         btnEditMetadata.setOnClickListener(new View.OnClickListener() {
