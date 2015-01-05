@@ -55,7 +55,7 @@
             android:text="Title" />
 
         <Switch
-            android:id="@+id/tb_title"
+            android:id="@+id/sw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -92,7 +92,7 @@
             android:text="Description" />
 
         <Switch
-            android:id="@+id/tb_description"
+            android:id="@+id/sw_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -129,7 +129,7 @@
             android:text="Author" />
 
         <Switch
-            android:id="@+id/tb_author"
+            android:id="@+id/sw_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -166,7 +166,7 @@
             android:text="Location" />
 
         <Switch
-            android:id="@+id/tb_location"
+            android:id="@+id/sw_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -203,7 +203,7 @@
             android:text="Tags" />
 
         <Switch
-            android:id="@+id/tb_tags"
+            android:id="@+id/sw_tags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -239,7 +239,7 @@
             android:text="Use Tor" />
 
         <Switch
-            android:id="@+id/tb_use_tor"
+            android:id="@+id/sw_use_tor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

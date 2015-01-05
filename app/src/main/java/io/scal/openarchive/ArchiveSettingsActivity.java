@@ -27,12 +27,12 @@ public class ArchiveSettingsActivity extends Activity {
 		setContentView(R.layout.activity_archive_metadata);
 		Button btnSave = (Button) findViewById(R.id.btnSave);
 
-        final Switch swTitle = (Switch) findViewById(R.id.tb_title);
-        final Switch swDescription = (Switch) findViewById(R.id.tb_description);
-        final Switch swAuthor = (Switch) findViewById(R.id.tb_author);
-        final Switch swTags = (Switch) findViewById(R.id.tb_tags);
-        final Switch swLocation = (Switch) findViewById(R.id.tb_location);
-        final Switch swUseTor = (Switch) findViewById(R.id.tb_use_tor);
+        final Switch swTitle = (Switch) findViewById(R.id.sw_title);
+        final Switch swDescription = (Switch) findViewById(R.id.sw_description);
+        final Switch swAuthor = (Switch) findViewById(R.id.sw_author);
+        final Switch swTags = (Switch) findViewById(R.id.sw_tags);
+        final Switch swLocation = (Switch) findViewById(R.id.sw_location);
+        final Switch swUseTor = (Switch) findViewById(R.id.sw_use_tor);
         final RadioGroup rgLicense = (RadioGroup) findViewById(R.id.radioGroupCC);
 
         //set defaults based on previous selections
