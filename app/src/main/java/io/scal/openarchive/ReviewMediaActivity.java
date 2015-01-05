@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -28,7 +29,7 @@ import io.scal.openarchive.database.OpenArchiveContentProvider;
 
 public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
-    private static String mFilePath;
+    private String mFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,53 @@ public class ReviewMediaActivity extends ActionBarActivity {
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
         ivMedia.setImageURI(Uri.parse(mFilePath));
 
+        TableRow trTitle = (TableRow) findViewById(R.id.tr_title);
+        TableRow trDescription = (TableRow) findViewById(R.id.tr_description);
+        TableRow trAuthor = (TableRow) findViewById(R.id.tr_author);
+        TableRow trLocation = (TableRow) findViewById(R.id.tr_location);
+        TableRow trTags = (TableRow) findViewById(R.id.tr_tags);
+        TableRow trTor = (TableRow) findViewById(R.id.tr_tor);
+
+        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+
+        // show/hide data
+        if (sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true)) {
+            trTitle.setVisibility(View.VISIBLE);
+        } else {
+            trTitle.setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false)) {
+            trDescription.setVisibility(View.VISIBLE);
+        } else {
+            trDescription.setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false)) {
+            trAuthor.setVisibility(View.VISIBLE);
+        } else {
+            trAuthor.setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false)) {
+            trLocation.setVisibility(View.VISIBLE);
+        } else {
+            trLocation.setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false)) {
+            trTags.setVisibility(View.VISIBLE);
+        } else {
+            trTags.setVisibility(View.GONE);
+        }
+
+        if(sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false)) {
+            trTor.setVisibility(View.VISIBLE);
+        } else {
+            trTor.setVisibility(View.GONE);
+        }
+
+        /*
         TableLayout tblMediaMetadata = (TableLayout) findViewById(R.id.tblMediaMetadata);
         tblMediaMetadata.removeAllViews();
 
@@ -76,11 +124,11 @@ public class ReviewMediaActivity extends ActionBarActivity {
             TextView tvRowLabel = (TextView) vRow.findViewById(R.id.tvRowLabel);
             tvRowLabel.setText(label);
 
-            TextView tvRowDesc = (TextView) vRow.findViewById(R.id.tvRowDesc);
-            tvRowDesc.setText(desc);
+            EditText tvRowDesc = (EditText) vRow.findViewById(R.id.etRowDesc);
+            tvRowDesc.setHint(desc);
 
             tblMediaMetadata.addView(vRow);
-        }
+        }*/
 
         Button btnEditMetadata = (Button) findViewById(R.id.btnEditMetadata);
         btnEditMetadata.setOnClickListener(new View.OnClickListener() {
@@ -100,26 +148,30 @@ public class ReviewMediaActivity extends ActionBarActivity {
         });
     }
 
-    private boolean[] getMetadataPermissions() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // store file path
         final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Globals.INTENT_CURRENT_MEDIA_PATH, mFilePath);
+        editor.apply();
 
-        boolean[] arPermissions = new boolean[6];
-
-        //TODO pull this from DB instead of prefs - but for now **ORDER DOES MATTER***
-        arPermissions[0] = sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false);
-        arPermissions[1] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true);
-        arPermissions[2] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false);
-        arPermissions[3] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false);
-        arPermissions[4] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false);
-        arPermissions[5] = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false);
-
-        return arPermissions;
+        // reset variable after storage
+        mFilePath = null;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        init();
+        // get file path if null
+        if (mFilePath == null) {
+            final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+            mFilePath = sharedPref.getString(Globals.INTENT_CURRENT_MEDIA_PATH, null);
+
+            init();
+        }
     }
 }

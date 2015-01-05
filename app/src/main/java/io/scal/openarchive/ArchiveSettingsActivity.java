@@ -35,7 +35,7 @@ public class ArchiveSettingsActivity extends Activity {
         final Switch swUseTor = (Switch) findViewById(R.id.sw_use_tor);
         final RadioGroup rgLicense = (RadioGroup) findViewById(R.id.radioGroupCC);
 
-        //set defaults based on previous selections
+        // set defaults based on previous selections
         final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
         swTitle.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true));
 		swDescription.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false));
@@ -45,7 +45,7 @@ public class ArchiveSettingsActivity extends Activity {
         swUseTor.setChecked(sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false));
 		rgLicense.check(sharedPref.getInt(Globals.INTENT_EXTRA_LICENSE_URL, R.id.radioByNcNd));
 		
-		//set up ccLicense link
+		// set up ccLicense link
 		final TextView tvCCLicenseLink = (TextView) findViewById(R.id.tv_cc_license);
 		tvCCLicenseLink.setMovementMethod(LinkMovementMethod.getInstance());	
     	setCCLicenseText(rgLicense.getCheckedRadioButtonId(), tvCCLicenseLink);
@@ -72,7 +72,7 @@ public class ArchiveSettingsActivity extends Activity {
 
                 final Intent i = getIntent();
 
-                //save defaults for future selections
+                // save defaults for future selections
 		        SharedPreferences.Editor editor = sharedPref.edit();
 		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, swTitle.isChecked());
 		        editor.putBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, swDescription.isChecked());

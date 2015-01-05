@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,8 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivMedia"
-        android:shrinkColumns="1"
-        android:stretchColumns="0"/>
+        android:shrinkColumns="0"
+        android:stretchColumns="1">
+
+        <include layout="@layout/include_review_media"/>
+
+    </TableLayout>
 
     <Button
         android:id="@+id/btnEditMetadata"
@@ -33,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tblMediaMetadata"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/lblEditMetadata"
         android:textSize="14sp" />
@@ -44,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btnEditMetadata"
         android:layout_centerInParent="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/lblUpload"
         android:textSize="14sp" />

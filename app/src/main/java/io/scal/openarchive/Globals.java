@@ -37,6 +37,8 @@ public class Globals {
     public static final String INTENT_EXTRA_SHARE_LOCATION = "archive-share-location";
     public static final String INTENT_EXTRA_LICENSE_URL = "archive-share-license-url";
 
+    public static final String INTENT_CURRENT_MEDIA_PATH = "archive-current-media-path";
+
     // intent extras used for login/signup
     public static final String EXTRA_ACCESS_KEY     = "EXTRA_ACCESS_KEY";
     public static final String EXTRA_SECRET_KEY     = "EXTRA_SECRET_KEY";
