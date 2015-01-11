@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class FragmentMain extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void init(View view) {
+    private void init(final View view) {
         Button btnImport = (Button) view.findViewById(R.id.btnImport);
         Button btnCapture = (Button) view.findViewById(R.id.btnCapture);
 
@@ -108,7 +109,9 @@ public class FragmentMain extends Fragment {
             public void onClick(View v) {
                 Intent intent = null;
                 int requestId = -1;
-                String medium = Globals.PHOTO;
+                Spinner spCaptureOptions = (Spinner) view.findViewById(R.id.spCaptureOptions);
+
+                String medium = getMediaType( spCaptureOptions.getSelectedItemPosition());
 
                 if (medium.equals(Globals.VIDEO)) {
                     intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -152,5 +155,23 @@ public class FragmentMain extends Fragment {
         );
 
         return image;
+    }
+
+    private String getMediaType(int pos) {
+        String medium = Globals.PHOTO;
+
+        switch (pos) {
+            case 0:
+                medium = Globals.PHOTO;
+                break;
+            case 1:
+                medium = Globals.VIDEO;
+                break;
+            case 2:
+                medium = Globals.AUDIO;
+                break;
+        }
+
+        return medium;
     }
 }

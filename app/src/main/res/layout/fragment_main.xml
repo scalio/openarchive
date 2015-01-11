@@ -45,9 +45,25 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnImport"
-        android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/capture_btn"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_alignRight="@+id/logo"
+        android:layout_alignEnd="@+id/logo"
+        android:layout_alignLeft="@+id/btnImport"
+        android:layout_alignStart="@+id/btnImport"/>
+
+    <Spinner
+        android:id="@+id/spCaptureOptions"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnImport"
+        android:layout_toRightOf="@id/btnCapture"
+        android:entries="@array/ar_media_capture_options"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="14sp"
+        android:layout_alignRight="@+id/btnImport"
+        android:layout_alignEnd="@+id/btnImport"
+        android:layout_alignBottom="@+id/btnCapture"/>
 
 </RelativeLayout>

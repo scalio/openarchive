@@ -54,6 +54,12 @@
     <string name="import_btn">IMPORT</string>
     <string name="capture_btn">CAPTURE</string>
 
+    <string-array name="ar_media_capture_options">
+        <item>Image</item>
+        <item>Video</item>
+        <item>Audio</item>
+    </string-array>
+
     <!-- ViewMediaActivity -->
     <string name="iv_content_desc">Main Image</string>
 

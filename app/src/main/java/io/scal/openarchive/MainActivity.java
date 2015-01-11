@@ -92,6 +92,12 @@ public class MainActivity extends ActionBarActivity
             };
             progressThread.start();
         }
+
+        test();
+    }
+
+    private void test() {
+
     }
 
     @Override
