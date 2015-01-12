@@ -21,8 +21,7 @@ import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import io.scal.openarchive.database.MetadataTable;
-import io.scal.openarchive.database.OpenArchiveContentProvider;
+import io.scal.openarchive.db.Metadata;
 
 public class Utils {
 
@@ -119,14 +118,11 @@ public class Utils {
 
     //called the first time the app runs to add values to the db
     public static void initDB(Context context) {
-        Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
-
         String[] defaultValues = {"Use Tor", "Title", "Description", "Author", "Location", "Tags"};
 
         for (String value : defaultValues) {
-            ContentValues metadataValues = new ContentValues();
-            metadataValues.put(MetadataTable.name, value);
-            context.getContentResolver().insert(uri, metadataValues);
+            Metadata metadata = new Metadata(value);
+            metadata.save();
         }
     }
 

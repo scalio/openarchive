@@ -25,9 +25,6 @@ import com.facebook.android.Util;
 
 import java.util.ArrayList;
 
-import io.scal.openarchive.database.MetadataTable;
-import io.scal.openarchive.database.OpenArchiveContentProvider;
-
 
 public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
@@ -47,9 +44,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
             Utils.toastOnUiThread(this, "No Media Found!");
             finish();
         }
-
-        Uri uri = OpenArchiveContentProvider.Metadata.METADATA;
-        Cursor result = this.getContentResolver().query(uri, new String[] { MetadataTable.id, MetadataTable.name }, null, null, null);
 
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
         ivMedia.setImageURI(Uri.parse(mFilePath));
