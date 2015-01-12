@@ -8,6 +8,7 @@ import com.orm.SugarRecord;
 public class Metadata extends SugarRecord<Metadata> {
     String name;
 
+    public Metadata(){}
     public Metadata(String name) {
         this.name = name;
     }
