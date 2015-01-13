@@ -29,6 +29,7 @@ public class Globals {
     // metadata prefs
     public static final String PREF_FILE_KEY         = "archive_metadata_key";
 
+    public static final String INTENT_EXTRA_MEDIA_ID = "archive-media-id";
     public static final String INTENT_EXTRA_USE_TOR = "archive-use-tor";
     public static final String INTENT_EXTRA_SHARE_TITLE = "archive-share-title";
     public static final String INTENT_EXTRA_SHARE_DESCRIPTION = "archive-share-description";

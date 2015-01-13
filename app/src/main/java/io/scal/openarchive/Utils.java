@@ -117,8 +117,10 @@ public class Utils {
     }
 
     //called the first time the app runs to add values to the db
-    public static void initDB(Context context) {
-        String[] defaultValues = {"Use Tor", "Title", "Description", "Author", "Location", "Tags"};
+    public static void initDB() {
+
+        //WARNING: DO NOT change the order of these values
+        String[] defaultValues = {"Title", "Description", "Author", "Location", "Tags", "Use Tor"};
 
         for (String value : defaultValues) {
             Metadata metadata = new Metadata(value);
