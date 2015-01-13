@@ -73,17 +73,6 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
         super.onPause();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Globals.PREFERENCES_WP_REGISTERED, false)) {
-            // The user is returning to this Activity after a successful WordPress signup
-            Intent homeIntent = new Intent(FirstStartActivity.this, MainActivity.class);
-            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(homeIntent);
-        }
-    }
-
     /**
      * When the EULA / TOS button is clicked, show the EULA if it hasn't been shown.
      * Else, allow the user to accept immediately.
@@ -141,7 +130,6 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
         markTosButtonAccepted();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 //        super.onActivityResult(requestCode, resultCode, intent); // FIXME do we really need to call up to the super?
@@ -160,66 +148,14 @@ public class FirstStartActivity extends Activity implements OnEulaAgreedTo {
                 mAccount.setAreCredentialsValid(true);
                 mAccount.saveToSharedPrefs(this, null);
 
-                // TODO move login retries out of the fragment into something reusable
-//                if (mAttemptingLoginRetry) {
-//                    mContainerConnectedAccountsView.removeView(mVgAccounts);
-//                    addConnectedAccount(mAccount, true);
-//                }
-//                else {
-//                    addConnectedAccount(mAccount, true);
-//                    mContainerAvailableAccountsView.removeView(mVgAccounts);
-//
-//                    If there are no rows remaining, show the empty view.
-//                    if (mContainerAvailableAccountsView.getChildCount() == 0) {
-//                        mView.findViewById(io.scal.secureshareuilibrary.R.id.tv_accounts_available_empty).setVisibility(View.VISIBLE);
-//                    }
-//                }
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(mainIntent);
+
             } else {
                 Toast.makeText(this, getString(R.string.problem_authticating), Toast.LENGTH_LONG).show();
             }
         }
     }
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        Log.d(TAG, "onActivityResult, requestCode:" + requestCode + ", resultCode: " + resultCode);
-
-        String path = null;
-        if (resultCode == RESULT_OK) {
-            if(requestCode == Globals.REQUEST_VIDEO_CAPTURE) {
-                Uri uri = intent.getData();
-                path = getRealPathFromURI(getApplicationContext(), uri);
-                Log.d(TAG, "onActivityResult, video path:" + path);
-
-            } else if(requestCode == Globals.REQUEST_IMAGE_CAPTURE) {
-                path = this.getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(Globals.EXTRA_FILE_LOCATION, null);
-                Log.d(TAG, "onActivityResult, path:" + path);
-
-            } else if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
-                Uri uri = intent.getData();
-                path = getRealPathFromURI(getApplicationContext(), uri);
-                Log.d(TAG, "onActivityResult, audio path:" + path);
-
-            } else if (requestCode == Globals.REQUEST_FILE_IMPORT) {
-                Uri uri = intent.getData();
-                // Will only allow stream-based access to files
-                if (Build.VERSION.SDK_INT >= 19) {
-                    getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                }
-
-                path = getRealPathFromURI(getApplicationContext(), uri);
-                Log.d(TAG, "onActivityResult, imported file path:" + path);
-            }
-
-            if (null == path) {
-                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-                startActivity(viewMediaIntent);
-            } else {
-                Log.d(TAG, "onActivityResult: Invalid file on import or capture");
-                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 }
 
