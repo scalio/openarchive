@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,7 +29,6 @@ public class MainActivity extends ActionBarActivity
         FragmentMain.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
-    private static final String PREF_FIRST_RUN = "pref_first_run";
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
 
@@ -50,7 +48,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = sp.getBoolean(PREF_FIRST_RUN, true);
+        boolean isFirstRun = sp.getBoolean(Globals.PREF_FIRST_RUN, true);
         // if first time running app
         if (isFirstRun) {
             initFirstRun(sp);
@@ -193,9 +191,9 @@ public class MainActivity extends ActionBarActivity
             }
 
             if (null != path) {
-                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-                viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
-                startActivity(viewMediaIntent);
+                Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+                reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_FILE_PATH, path);
+                startActivity(reviewMediaIntent);
             } else {
                 Log.d(TAG, "onActivityResult: Invalid file on import or capture");
                 Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
@@ -237,7 +235,7 @@ public class MainActivity extends ActionBarActivity
 
     private void initFirstRun(SharedPreferences sp) {
         // set first run flag as false
-        sp.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+        sp.edit().putBoolean(Globals.PREF_FIRST_RUN, false).apply();
 
         // iniialize db
         Utils.initDB();

@@ -11,8 +11,8 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_action_picture" />
 
-        <EditText
-            android:id="@+id/et_title"
+        <TextView
+            android:id="@+id/tv_title"
             android:hint="Title"
             android:layout_gravity="center_vertical"/>
     </TableRow>
@@ -29,8 +29,8 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_action_picture" />
 
-        <EditText
-            android:id="@+id/et_description"
+        <TextView
+            android:id="@+id/tv_description"
             android:hint="Description"
             android:layout_gravity="center_vertical"/>
     </TableRow>
@@ -47,8 +47,8 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_action_picture" />
 
-        <EditText
-            android:id="@+id/et_author"
+        <TextView
+            android:id="@+id/tv_author"
             android:hint="Author"
             android:layout_gravity="center_vertical"/>
     </TableRow>
@@ -65,8 +65,8 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_action_picture" />
 
-        <EditText
-            android:id="@+id/et_location"
+        <TextView
+            android:id="@+id/tv_location"
             android:hint="Location"
             android:layout_gravity="center_vertical"/>
     </TableRow>
@@ -83,8 +83,8 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_action_picture" />
 
-        <EditText
-            android:id="@+id/et_tags"
+        <TextView
+            android:id="@+id/tv_tags"
             android:hint="Tags"
             android:layout_gravity="center_vertical"/>
     </TableRow>

@@ -25,11 +25,6 @@ import io.scal.openarchive.db.Metadata;
 
 public class Utils {
 
-    // netcipher
-    public static final String ORBOT_HOST = "127.0.0.1";
-    public static final int ORBOT_HTTP_PORT = 8118;
-    public static final int ORBOT_SOCKS_PORT = 9050;
-
     public static boolean isOrbotInstalledAndRunning(Context mContext) {
 
         //TODO
@@ -39,9 +34,7 @@ public class Utils {
     }
 
     // TODO audit code for security since we use the to generate random strings for url slugs
-    public static final class RandomString
-    {
-
+    public static final class RandomString {
         /* Assign a string that contains the set of characters you allow. */
         private static final String symbols = "abcdefghijklmnopqrstuvwxyz0123456789";
 
