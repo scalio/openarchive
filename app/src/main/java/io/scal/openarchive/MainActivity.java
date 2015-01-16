@@ -204,7 +204,6 @@ public class MainActivity extends ActionBarActivity
             } else {
                 // create media
                 Media media = new Media(getApplicationContext(), path, mediaType);
-                media.save();
 
                 Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
                 reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());

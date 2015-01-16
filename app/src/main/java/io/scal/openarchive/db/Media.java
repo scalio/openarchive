@@ -47,6 +47,8 @@ public class Media extends SugarRecord<Media> {
         this.createDate = new Date();
         this.updateDate = this.createDate;
 
+
+        this.save();
         initMetadataValues(mContext);
     }
 
