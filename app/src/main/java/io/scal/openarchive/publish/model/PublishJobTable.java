@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import io.scal.openarchive.Utils;
+
+import io.scal.openarchive.Utility;
 import io.scal.openarchive.publish.db.DBProvider;
 import io.scal.openarchive.publish.db.StoryMakerDB;
 import android.content.Context;
@@ -79,8 +80,8 @@ public class PublishJobTable extends Table {
         }
         Arrays.sort(keys1);
         Arrays.sort(keys2);
-        String keyString1 = Utils.stringArrayToCommaString(keys1);
-        String keyString2 = Utils.stringArrayToCommaString(keys2);
+        String keyString1 = Utility.stringArrayToCommaString(keys1);
+        String keyString2 = Utility.stringArrayToCommaString(keys2);
         return keyString1.equals(keyString2);
     }
     

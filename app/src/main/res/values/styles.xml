@@ -26,4 +26,24 @@
         <item name="android:background">@android:drawable/btn_default</item>
     </style>
 
+    <style name="TextViewBase">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- General -->
+    <style name="TextViewLabel" parent="TextViewBase">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="TextViewAlert" parent="TextViewBase">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/storymaker_blue</item>
+        <item name="android:textColorHint">@color/storymaker_blue</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
 </resources>

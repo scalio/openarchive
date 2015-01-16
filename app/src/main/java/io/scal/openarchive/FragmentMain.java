@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.scal.openarchive.db.Media;
+
 
 public class FragmentMain extends Fragment {
     private static final String TAG = "MainFragment";
@@ -110,16 +112,15 @@ public class FragmentMain extends Fragment {
                 Intent intent = null;
                 int requestId = -1;
                 Spinner spCaptureOptions = (Spinner) view.findViewById(R.id.spCaptureOptions);
+                Media.MEDIA_TYPE mediaType = getSelectedMediaType(spCaptureOptions.getSelectedItemPosition());
 
-                String medium = getMediaType( spCaptureOptions.getSelectedItemPosition());
+                if (mediaType == Media.MEDIA_TYPE.AUDIO) {
+                    intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+                    requestId = Globals.REQUEST_AUDIO_CAPTURE;
 
-                if (medium.equals(Globals.VIDEO)) {
-                    intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    requestId = Globals.REQUEST_VIDEO_CAPTURE;
-
-                } else if (medium.equals(Globals.PHOTO)) {
+                } else if (mediaType == Media.MEDIA_TYPE.IMAGE) {
                     intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File photoFile = null;
+                    File photoFile;
                     try {
                         photoFile = createImageFile();
                     } catch (IOException ex) {
@@ -131,9 +132,9 @@ public class FragmentMain extends Fragment {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                     requestId = Globals.REQUEST_IMAGE_CAPTURE;
 
-                } else if (medium.equals(Globals.AUDIO)) {
-                    intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-                    requestId = Globals.REQUEST_AUDIO_CAPTURE;
+                } else if (mediaType == Media.MEDIA_TYPE.VIDEO) {
+                    intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    requestId = Globals.REQUEST_VIDEO_CAPTURE;
                 }
 
                 if (null != intent && intent.resolveActivity(mContext.getPackageManager()) != null) {
@@ -157,21 +158,22 @@ public class FragmentMain extends Fragment {
         return image;
     }
 
-    private String getMediaType(int pos) {
-        String medium = Globals.PHOTO;
+    private Media.MEDIA_TYPE getSelectedMediaType(int pos) {
+        // set image as default TODO set to null and display error
+        Media.MEDIA_TYPE mediaType = Media.MEDIA_TYPE.IMAGE;
 
         switch (pos) {
             case 0:
-                medium = Globals.PHOTO;
+                mediaType = Media.MEDIA_TYPE.IMAGE;
                 break;
             case 1:
-                medium = Globals.VIDEO;
+                mediaType = Media.MEDIA_TYPE.VIDEO;
                 break;
             case 2:
-                medium = Globals.AUDIO;
+                mediaType = Media.MEDIA_TYPE.AUDIO;
                 break;
         }
 
-        return medium;
+        return mediaType;
     }
 }

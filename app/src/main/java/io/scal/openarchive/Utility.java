@@ -4,6 +4,7 @@ package io.scal.openarchive;
  * Created by micahjlucas on 12/16/14.
  */
 
+import java.io.File;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -12,7 +13,9 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.CookieManager;
@@ -21,14 +24,10 @@ import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import io.scal.openarchive.db.Media;
 import io.scal.openarchive.db.Metadata;
 
-public class Utils {
-
-    // netcipher
-    public static final String ORBOT_HOST = "127.0.0.1";
-    public static final int ORBOT_HTTP_PORT = 8118;
-    public static final int ORBOT_SOCKS_PORT = 9050;
+public class Utility {
 
     public static boolean isOrbotInstalledAndRunning(Context mContext) {
 
@@ -39,9 +38,7 @@ public class Utils {
     }
 
     // TODO audit code for security since we use the to generate random strings for url slugs
-    public static final class RandomString
-    {
-
+    public static final class RandomString {
         /* Assign a string that contains the set of characters you allow. */
         private static final String symbols = "abcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -65,41 +62,71 @@ public class Utils {
 
     }
 
-    public static String getMediaType(String mediaPath) {
-        String result = null;
+    public static Media.MEDIA_TYPE getMediaType(String mediaPath) {
+        String result;
         String fileExtension = MimeTypeMap.getFileExtensionFromUrl(mediaPath);
         result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
 
         if (result == null) {
             if (mediaPath.endsWith("wav")) {
                 result = "audio/wav";
-            }
-            else if (mediaPath.endsWith("mp3")) {
+            } else if (mediaPath.endsWith("mp3")) {
                 result = "audio/mpeg";
-            }
-            else if (mediaPath.endsWith("3gp")) {
+            } else if (mediaPath.endsWith("3gp")) {
                 result = "audio/3gpp";
-            }
-            else if (mediaPath.endsWith("mp4")) {
+            } else if (mediaPath.endsWith("mp4")) {
                 result = "video/mp4";
-            }
-            else if (mediaPath.endsWith("jpg")) {
+            } else if (mediaPath.endsWith("jpg")) {
                 result = "image/jpeg";
-            }
-            else if (mediaPath.endsWith("png")) {
+            } else if (mediaPath.endsWith("png")) {
                 result = "image/png";
+            } else {
+                // for imported files
+                result = mediaPath;
             }
         }
 
         if (result.contains("audio")) {
-            return "audio";
+            return Media.MEDIA_TYPE.AUDIO;
         } else if(result.contains("image")) {
-            return "image";
+            return Media.MEDIA_TYPE.IMAGE;
         } else if(result.contains("video")) {
-            return "movies";
+            return Media.MEDIA_TYPE.VIDEO;
         }
 
         return null;
+    }
+
+    public static String getRealPathFromURI(Context context, Uri contentUri) {
+        if (contentUri == null) {
+            return null;
+        }
+
+        // work-around to handle normal paths
+        if (contentUri.toString().startsWith(File.separator)) {
+            return contentUri.toString();
+        }
+
+        // work-around to handle normal paths
+        if (contentUri.toString().startsWith("file://")) {
+            return contentUri.toString().split("file://")[1];
+        }
+
+        // TODO deal with document providers
+        // path of form : content://com.android.providers.media.documents/document/video:183
+
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     public static void clearWebviewAndCookies(WebView webview, Activity activity) {
@@ -184,4 +211,3 @@ public class Utils {
         });
     }
 }
-

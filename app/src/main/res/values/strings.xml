@@ -17,6 +17,10 @@
     <string name="loading_title">Uploading</string>
     <string name="loading_message">Please wait...</string>
 
+    <!-- Default Values -->
+    <string name="default_title">My Title</string>
+    <string name="default_tags">openarchive, storymaker</string>
+
     <!-- NavigationDrawer -->
     <string name="title_section_home">Home</string>
     <string name="title_section_logout">Logout</string>
@@ -64,7 +68,9 @@
     <string name="iv_content_desc">Main Image</string>
 
     <!-- Errors -->
-    <string name="error_on_activity_result">File not found</string>
+    <string name="error_file_not_found">File not found</string>
+    <string name="error_invalid_media_type">File Type not recognized</string>
+    <string name="error_no_media">No Media Found!</string>
 
     <!-- Server -->
     <string name="lbl_Yes">Yes</string>
@@ -86,5 +92,9 @@
     <string name="lbl_share_prefs">Sharing Preferences</string>
     <string name="problem_authticating">There was a problem authenticating with Internet Archive.</string>
     <string name="uploading_to_internet_archive">Uploading to Internet Archive...</string>
+
+
+    <string name="lbl_update_value">Update Value</string>
+    <string name="lbl_enter_value">Tap To Enter Value</string>
 
 </resources>

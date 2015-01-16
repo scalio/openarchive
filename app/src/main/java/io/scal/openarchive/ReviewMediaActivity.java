@@ -8,50 +8,65 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableRow;
+import android.widget.TextView;
 
-import java.util.Date;
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
-import io.scal.openarchive.db.MediaMetadataSTV;
-import io.scal.openarchive.db.Metadata;
+import io.scal.openarchive.db.MediaMetadata;
 
 
 public class ReviewMediaActivity extends ActionBarActivity {
     private Context mContext = this;
-    private String mFilePath;
+    private Media mMedia;
+
+    boolean isTitleShared;
+    boolean isDescriptionShared;
+    boolean isAuthorShared;
+    boolean isLocationShared;
+    boolean isTagsShared;
+    boolean isTorUsed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_media);
+        setContentView(R.layout.activity_review_media);
 
-        mFilePath = getIntent().getStringExtra(Constants.INTENT_EXTRA_FILE_PATH);
         init();
+        getMetadataValues();
     }
 
     private void init() {
-        if (mFilePath == null) {
-            Utils.toastOnUiThread(this, "No Media Found!");
+        Intent intent = getIntent();
+
+        // get intent extras
+        long currentMediaId = intent.getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, 0);
+
+        // get default metadata sharing values
+        SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+
+        isTitleShared = sharedPref.getBoolean(Globals.PREF_SHARE_TITLE, true);
+        isDescriptionShared = sharedPref.getBoolean(Globals.PREF_SHARE_DESCRIPTION, false);
+        isAuthorShared = sharedPref.getBoolean(Globals.PREF_SHARE_AUTHOR, false);
+        isLocationShared = sharedPref.getBoolean(Globals.PREF_SHARE_LOCATION, false);
+        isTagsShared = sharedPref.getBoolean(Globals.PREF_SHARE_TAGS, false);
+        isTorUsed = sharedPref.getBoolean(Globals.PREF_USE_TOR, false);
+
+        // check for new file or existing media
+        if (currentMediaId != 0) {
+            mMedia = Media.findById(Media.class, currentMediaId);
+        } else {
+            Utility.toastOnUiThread(this, getString(R.string.error_no_media));
             finish();
         }
 
+        // display media preview
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
-        ivMedia.setImageURI(Uri.parse(mFilePath));
+        ivMedia.setImageBitmap(mMedia.getThumbnail(getApplicationContext()));
 
-        // declare needed vars
-        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
-
-        final boolean isTitleShared = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TITLE, true);
-        final boolean isDescriptionShared = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_DESCRIPTION, false);
-        final boolean isAuthorShared = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_AUTHOR, false);
-        final boolean isLocationShared = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_LOCATION, false);
-        final boolean isTagsShared = sharedPref.getBoolean(Globals.INTENT_EXTRA_SHARE_TAGS, false);
-        final boolean isTorUsed = sharedPref.getBoolean(Globals.INTENT_EXTRA_USE_TOR, false);
-
+        // show/hide data rows
         TableRow trTitle = (TableRow) findViewById(R.id.tr_title);
         TableRow trDescription = (TableRow) findViewById(R.id.tr_description);
         TableRow trAuthor = (TableRow) findViewById(R.id.tr_author);
@@ -59,7 +74,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
         TableRow trTags = (TableRow) findViewById(R.id.tr_tags);
         TableRow trTor = (TableRow) findViewById(R.id.tr_tor);
 
-        // show/hide data
         int visibility = isTitleShared ? View.VISIBLE : View.GONE;
         trTitle.setVisibility(visibility);
 
@@ -82,10 +96,8 @@ public class ReviewMediaActivity extends ActionBarActivity {
         Button btnEditMetadata = (Button) findViewById(R.id.btnEditMetadata);
         btnEditMetadata.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-
-
                 Intent settingsIntent = new Intent(mContext, ArchiveSettingsActivity.class);
+                settingsIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
                 startActivity(settingsIntent);
             }
         });
@@ -94,72 +106,53 @@ public class ReviewMediaActivity extends ActionBarActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                EditText etTitle = (EditText) findViewById(R.id.et_title);
-                EditText etDescription = (EditText) findViewById(R.id.et_description);
-                EditText etAuthor = (EditText) findViewById(R.id.et_author);
-                EditText etLocation = (EditText) findViewById(R.id.et_location);
-                EditText etTags = (EditText) findViewById(R.id.et_tags);
-
-                // create new media
-                Media media = new Media();
-                media.setOriginalPath(mFilePath);
-                media.setCreateDate(new Date());
-                media.setUpdateDate(new Date());
-                media.save();
-
-                List<Metadata> metadataList = Metadata.listAll(Metadata.class);
-
-                // save one record per metadata item
-                MediaMetadataSTV mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(0), etTitle.getText().toString().trim(), isTitleShared);
-                mediaMetadataSTV.save();
-
-                mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(1), etDescription.getText().toString().trim(), isDescriptionShared);
-                mediaMetadataSTV.save();
-
-                mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(2), etAuthor.getText().toString().trim(), isAuthorShared);
-                mediaMetadataSTV.save();
-
-                mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(3), etLocation.getText().toString().trim(), isLocationShared);
-                mediaMetadataSTV.save();
-
-                mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(4), etTags.getText().toString().trim(), isTagsShared);
-                mediaMetadataSTV.save();
-
-                mediaMetadataSTV = new MediaMetadataSTV(media, metadataList.get(5), null, isTorUsed);
-                mediaMetadataSTV.save();
-
                 Intent uploadIntent = new Intent(mContext, MainActivity.class);
-                uploadIntent.putExtra(Globals.INTENT_EXTRA_MEDIA_ID, media.getId());
+                uploadIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
                 MainActivity.SHOULD_SPIN = true; // FIXME we cannot rely on statics to do inter activity communication
                 startActivity(uploadIntent);
             }
         });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void getMetadataValues() {
+        // set default values
+        final TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        final TextView tvDescription = (TextView) findViewById(R.id.tv_description);
+        final TextView tvAuthor = (TextView) findViewById(R.id.tv_author);
+        final TextView tvLocation = (TextView) findViewById(R.id.tv_location);
+        final TextView tvTags = (TextView) findViewById(R.id.tv_tags);
 
-        // store file path
-        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(Globals.INTENT_CURRENT_MEDIA_PATH, mFilePath);
-        editor.apply();
+        List<MediaMetadata> mediaMetadataList = MediaMetadata.find(MediaMetadata.class, "media = ?", new String[]{mMedia.getId().toString()});
 
-        // reset variable after storage
-        mFilePath = null;
+        // iterate over metadata and retrieve values
+        TextView tvCurrent = null;
+        for (MediaMetadata mm : mediaMetadataList) {
+            long metadataId = mm.getMetadata().getId();
+
+            if (metadataId == 1) {
+                tvCurrent = tvTitle;
+            }
+            else if (metadataId == 2) {
+                tvCurrent = tvDescription;
+            }
+            else if (metadataId == 3) {
+                tvCurrent = tvAuthor;
+            }
+            else if (metadataId == 4) {
+                tvCurrent = tvLocation;
+            }
+            else if (metadataId == 5) {
+                tvCurrent = tvTags;
+            }
+            tvCurrent.setText(mm.getValue());
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // get file path if null
-        if (mFilePath == null) {
-            final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
-            mFilePath = sharedPref.getString(Globals.INTENT_CURRENT_MEDIA_PATH, null);
-
-            init();
-        }
+        init();
+        getMetadataValues();
     }
 }

@@ -11,9 +11,8 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
 
-
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -27,26 +26,24 @@
         android:background="@android:color/background_dark" />
 
     <RelativeLayout
+        android:id="@+id/rl_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp" >
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_title"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_picture" />
 
         <TextView
+            style="@style/TextViewLabel"
             android:id="@+id/tv_title_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_title"
-            android:text="Title" />
+            android:text="Title"/>
 
         <Switch
             android:id="@+id/sw_title"
@@ -56,7 +53,13 @@
             android:layout_centerVertical="true"
             android:textOff="@string/lbl_off"
             android:textOn="@string/lbl_on" />
+
     </RelativeLayout>
+
+    <TextView
+        style="@style/TextViewAlert"
+        android:id="@+id/tv_title_value"
+        android:hint="@string/lbl_enter_value" />
 
     <View
         android:layout_width="fill_parent"
@@ -65,22 +68,19 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp" >
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/iv_description"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
 
         <TextView
+            style="@style/TextViewLabel"
             android:id="@+id/tv_description_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_description"
             android:layout_centerVertical="true"
             android:text="Description" />
@@ -95,6 +95,11 @@
             android:textOn="@string/lbl_on" />
     </RelativeLayout>
 
+    <TextView
+        style="@style/TextViewAlert"
+        android:id="@+id/tv_description_value"
+        android:hint="@string/lbl_enter_value" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -102,22 +107,19 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp" >
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/iv_author"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
 
         <TextView
+            style="@style/TextViewLabel"
             android:id="@+id/tv_author_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_author"
             android:layout_centerVertical="true"
             android:text="Author" />
@@ -132,6 +134,11 @@
             android:textOn="@string/lbl_on" />
     </RelativeLayout>
 
+    <TextView
+        style="@style/TextViewAlert"
+        android:id="@+id/tv_author_value"
+        android:hint="@string/lbl_enter_value" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -145,16 +152,15 @@
 
         <ImageView
             android:id="@+id/iv_location"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_location" />
 
         <TextView
+            style="@style/TextViewLabel"
             android:id="@+id/tv_location_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_location"
             android:layout_centerVertical="true"
             android:text="Location" />
@@ -169,6 +175,11 @@
             android:textOn="@string/lbl_on" />
     </RelativeLayout>
 
+    <TextView
+        style="@style/TextViewAlert"
+        android:id="@+id/tv_location_value"
+        android:hint="@string/lbl_enter_value" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -182,16 +193,15 @@
 
         <ImageView
             android:id="@+id/iv_tags"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_location" />
 
         <TextView
+            style="@style/TextViewLabel"
             android:id="@+id/tv_tags_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_tags"
             android:layout_centerVertical="true"
             android:text="Tags" />
@@ -206,6 +216,11 @@
             android:textOn="@string/lbl_on" />
     </RelativeLayout>
 
+    <TextView
+        style="@style/TextViewAlert"
+        android:id="@+id/tv_tags_value"
+        android:hint="@string/lbl_enter_value" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -219,15 +234,14 @@
 
         <ImageView
             android:id="@+id/iv_use_tor"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextViewLabel"
             android:layout_toRightOf="@+id/iv_use_tor"
             android:layout_centerVertical="true"
             android:text="Use Tor" />

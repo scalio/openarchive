@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import io.scal.openarchive.db.Media;
 import io.scal.secureshareui.model.Account;
 
 
@@ -30,7 +30,6 @@ public class MainActivity extends ActionBarActivity
         FragmentMain.OnFragmentInteractionListener{
 
     private static final String TAG = "MainActivity";
-    private static final String PREF_FIRST_RUN = "pref_first_run";
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
 
@@ -50,7 +49,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = sp.getBoolean(PREF_FIRST_RUN, true);
+        boolean isFirstRun = sp.getBoolean(Globals.PREF_FIRST_RUN, true);
         // if first time running app
         if (isFirstRun) {
             initFirstRun(sp);
@@ -92,12 +91,6 @@ public class MainActivity extends ActionBarActivity
             };
             progressThread.start();
         }
-
-        test();
-    }
-
-    private void test() {
-
     }
 
     @Override
@@ -166,80 +159,65 @@ public class MainActivity extends ActionBarActivity
         Log.d(TAG, "onActivityResult, requestCode:" + requestCode + ", resultCode: " + resultCode);
 
         String path = null;
+        Media.MEDIA_TYPE mediaType = null;
+
         if (resultCode == RESULT_OK) {
-            if(requestCode == Globals.REQUEST_VIDEO_CAPTURE) {
+            if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
                 Uri uri = intent.getData();
-                path = getRealPathFromURI(getApplicationContext(), uri);
-                Log.d(TAG, "onActivityResult, video path:" + path);
+                path = Utility.getRealPathFromURI(getApplicationContext(), uri);
+                mediaType = Media.MEDIA_TYPE.AUDIO;
+
+                Log.d(TAG, "onActivityResult, audio path:" + path);
 
             } else if(requestCode == Globals.REQUEST_IMAGE_CAPTURE) {
                 path = this.getSharedPreferences("prefs", Context.MODE_PRIVATE).getString(Globals.EXTRA_FILE_LOCATION, null);
-                Log.d(TAG, "onActivityResult, path:" + path);
+                mediaType = Media.MEDIA_TYPE.IMAGE;
 
-            } else if(requestCode == Globals.REQUEST_AUDIO_CAPTURE) {
+                Log.d(TAG, "onActivityResult, image path:" + path);
+
+            } else if(requestCode == Globals.REQUEST_VIDEO_CAPTURE) {
                 Uri uri = intent.getData();
-                path = getRealPathFromURI(getApplicationContext(), uri);
-                Log.d(TAG, "onActivityResult, audio path:" + path);
+                path = Utility.getRealPathFromURI(getApplicationContext(), uri);
+                mediaType = Media.MEDIA_TYPE.VIDEO;
 
-            } else if (requestCode == Globals.REQUEST_FILE_IMPORT) {
+                Log.d(TAG, "onActivityResult, video path:" + path);
+
+            }  else if (requestCode == Globals.REQUEST_FILE_IMPORT) {
                 Uri uri = intent.getData();
                 // Will only allow stream-based access to files
                 if (Build.VERSION.SDK_INT >= 19) {
                     getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
 
-                path = getRealPathFromURI(getApplicationContext(), uri);
+                path = uri.toString();
+                mediaType = Utility.getMediaType(path);
+
                 Log.d(TAG, "onActivityResult, imported file path:" + path);
             }
 
-            if (null != path) {
-                Intent viewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-                viewMediaIntent.putExtra(Constants.INTENT_EXTRA_FILE_PATH, path);
-                startActivity(viewMediaIntent);
-            } else {
+            if (null == path) {
                 Log.d(TAG, "onActivityResult: Invalid file on import or capture");
-                Toast.makeText(getApplicationContext(), R.string.error_on_activity_result, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+                Toast.makeText(getApplicationContext(), R.string.error_file_not_found, Toast.LENGTH_SHORT).show();
+            } else if (null == mediaType) {
+                Log.d(TAG, "onActivityResult: Invalid Media Type");
+                Toast.makeText(getApplicationContext(), R.string.error_invalid_media_type, Toast.LENGTH_SHORT).show();
+            } else {
+                // create media
+                Media media = new Media(getApplicationContext(), path, mediaType);
+                media.save();
 
-    public static String getRealPathFromURI(Context context, Uri contentUri) {
-        if (contentUri == null) {
-            return null;
-        }
-
-        // work-around to handle normal paths
-        if (contentUri.toString().startsWith(File.separator)) {
-            return contentUri.toString();
-        }
-
-        // work-around to handle normal paths
-        if (contentUri.toString().startsWith("file://")) {
-            return contentUri.toString().split("file://")[1];
-        }
-
-        // TODO deal with document providers
-        // path of form : content://com.android.providers.media.documents/document/video:183
-
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+                Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+                reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());
+                startActivity(reviewMediaIntent);
             }
         }
     }
 
     private void initFirstRun(SharedPreferences sp) {
         // set first run flag as false
-        sp.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+        sp.edit().putBoolean(Globals.PREF_FIRST_RUN, false).apply();
 
         // iniialize db
-        Utils.initDB();
+        Utility.initDB();
     }
 }

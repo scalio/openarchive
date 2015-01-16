@@ -40,6 +40,8 @@ public class ArchivePublisher extends PublisherBase {
 		String height = null;
 		String cleanFileURL = null;
 
+        //FIXME need to add Media.MEDIA_TYPE check instead of strings
+        /*
 		if (medium != null) {
 			if (medium.equals(Globals.PHOTO)) {
 				// keep default image size
@@ -54,7 +56,7 @@ public class ArchivePublisher extends PublisherBase {
 			}
 
 			cleanFileURL = cleanFileURL(fileURL);
-		}
+		}*/
 
 		String embed  = null;
 		if (null != width && null != height && null != cleanFileURL) {

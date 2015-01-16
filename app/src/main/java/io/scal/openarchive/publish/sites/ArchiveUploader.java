@@ -7,14 +7,13 @@ import android.content.Context;
 import android.util.Log;
 
 import io.scal.openarchive.R;
-import io.scal.openarchive.Utils;
+import io.scal.openarchive.Utility;
 import io.scal.openarchive.publish.model.Job;
 import io.scal.openarchive.publish.model.PublishJob;
 import io.scal.openarchive.publish.UploadWorker;
 import io.scal.openarchive.publish.UploaderBase;
 import io.scal.secureshareui.controller.ArchiveSiteController;
 import io.scal.secureshareui.controller.SiteController;
-import io.scal.secureshareui.model.Account;
 
 public class ArchiveUploader extends UploaderBase {
     private final String TAG = "ArchiveUploader";
@@ -31,7 +30,7 @@ public class ArchiveUploader extends UploaderBase {
         final PublishJob publishJob = mJob.getPublishJob();
         final String path = publishJob.getLastRenderFilePath();
         //final Auth auth = (new AuthTable()).getAuthDefault(mContext, ArchiveSiteController.SITE_KEY);
-        if (Utils.stringNotBlank(path) && (new File(path)).exists()) {
+        if (Utility.stringNotBlank(path) && (new File(path)).exists()) {
             jobProgress(mJob, 0, mContext.getString(R.string.uploading_to_internet_archive));
             HashMap<String, String> valueMap = publishJob.getMetadata();
             addValuesToHashmap(valueMap, "project.getTitle()", "project.getDescription()", path);
