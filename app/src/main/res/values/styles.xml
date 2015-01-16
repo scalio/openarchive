@@ -2,12 +2,28 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:buttonStyle">@style/Button</item>
+        <item name="android:textViewStyle">@style/TextView</item>
+        <!--<item name="android:spinnerStyle">@style/Spinner</item>-->
     </style>
 
     <!-- Settings Theme to show action bar -->
     <style name="SettingsTheme" parent="AppTheme">
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowActionBar">true</item>
+        <item name="android:textColor">@color/light_black</item>
+    </style>
+
+    <style name="Button" parent="android:Widget.Button">
+        <item name="android:alpha">1</item>
+    </style>
+
+    <style name="TextView" parent="android:Widget.TextView">
+        <item name="android:alpha">1</item>
+    </style>
+
+    <style name="Spinner" parent="android:Widget.Spinner">
+        <item name="android:background">@android:drawable/btn_default</item>
     </style>
 
 </resources>

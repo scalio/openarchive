@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/library"
+    android:background="@drawable/background"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -20,6 +20,7 @@
 
     <TextView
         android:id="@+id/title"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/logo"
@@ -34,11 +35,11 @@
         android:id="@+id/btnImport"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="27dp"
         android:text="@string/import_btn"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnCapture"
@@ -53,17 +54,23 @@
         android:layout_alignLeft="@+id/btnImport"
         android:layout_alignStart="@+id/btnImport"/>
 
-    <Spinner
-        android:id="@+id/spCaptureOptions"
+    <FrameLayout
+        android:background="@android:drawable/btn_default"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnImport"
-        android:layout_toRightOf="@id/btnCapture"
-        android:entries="@array/ar_media_capture_options"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="14sp"
         android:layout_alignRight="@+id/btnImport"
         android:layout_alignEnd="@+id/btnImport"
-        android:layout_alignBottom="@+id/btnCapture"/>
+        android:layout_alignBottom="@+id/btnCapture">
+
+        <Spinner
+            android:id="@+id/spCaptureOptions"
+            android:entries="@array/ar_media_capture_options"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        </FrameLayout>
 
 </RelativeLayout>

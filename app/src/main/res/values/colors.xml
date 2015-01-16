@@ -3,6 +3,8 @@
     <color name="red">#ff0000</color>
     <color name="green">#00ff00</color>
     <color name="blue">#0000ff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="transparent_black">#33333333</color>
     <color name="storymaker_blue">#27aae1</color>
 
@@ -10,5 +12,6 @@
     <color name="light_grey">#9e9e9e</color>
     <color name="grey">#757575</color>
     <color name="dark_grey">#424242</color>
-    <color name="light_black">#212121</color>
+    <color name="light_black">#212121FF</color>
+    <color name="brand_accent">#A92E33</color>
 </resources>
