@@ -12,6 +12,9 @@
      to show file chooser each time -->
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
+    <!-- Required to sign in or register with archive.org -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

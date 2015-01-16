@@ -12,12 +12,10 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.util.Date;
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
 import io.scal.openarchive.db.MediaMetadata;
-import io.scal.openarchive.db.Metadata;
 
 
 public class ReviewMediaActivity extends ActionBarActivity {
@@ -37,17 +35,16 @@ public class ReviewMediaActivity extends ActionBarActivity {
         setContentView(R.layout.activity_review_media);
 
         init();
-        initMetadataValues();
+        getMetadataValues();
     }
 
     private void init() {
         Intent intent = getIntent();
 
         // get intent extras
-        String filePath = intent.getStringExtra(Globals.EXTRA_CURRENT_FILE_PATH);
         long currentMediaId = intent.getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, 0);
 
-        // initialize vars
+        // get default metadata sharing values
         SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
 
         isTitleShared = sharedPref.getBoolean(Globals.PREF_SHARE_TITLE, true);
@@ -58,18 +55,16 @@ public class ReviewMediaActivity extends ActionBarActivity {
         isTorUsed = sharedPref.getBoolean(Globals.PREF_USE_TOR, false);
 
         // check for new file or existing media
-        if (filePath != null) {
-            createMedia(filePath);
-        } else if (currentMediaId != 0) {
+        if (currentMediaId != 0) {
             mMedia = Media.findById(Media.class, currentMediaId);
         } else {
-            Utils.toastOnUiThread(this, getString(R.string.error_no_media));
+            Utility.toastOnUiThread(this, getString(R.string.error_no_media));
             finish();
         }
 
         // display media preview
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
-        ivMedia.setImageURI(Uri.parse(mMedia.getOriginalPath()));
+        ivMedia.setImageBitmap(mMedia.getThumbnail(getApplicationContext()));
 
         // show/hide data rows
         TableRow trTitle = (TableRow) findViewById(R.id.tr_title);
@@ -119,37 +114,7 @@ public class ReviewMediaActivity extends ActionBarActivity {
         });
     }
 
-    private void createMedia(String filePath) {
-        // create new media
-        mMedia = new Media();
-        mMedia.setOriginalPath(filePath);
-        mMedia.setCreateDate(new Date());
-        mMedia.setUpdateDate(new Date());
-        mMedia.save();
-
-        List<Metadata> metadataList = Metadata.listAll(Metadata.class);
-
-        // save one record per metadata item
-        MediaMetadata mediaMetadata = new MediaMetadata(mMedia, metadataList.get(0), getString(R.string.default_title), isTitleShared);
-        mediaMetadata.save();
-
-        mediaMetadata = new MediaMetadata(mMedia, metadataList.get(1), "", isDescriptionShared);
-        mediaMetadata.save();
-
-        mediaMetadata = new MediaMetadata(mMedia, metadataList.get(2), "", isAuthorShared);
-        mediaMetadata.save();
-
-        mediaMetadata = new MediaMetadata(mMedia, metadataList.get(3), "", isLocationShared);
-        mediaMetadata.save();
-
-        mediaMetadata = new MediaMetadata(mMedia, metadataList.get(4), getString(R.string.default_tags), isTagsShared);
-        mediaMetadata.save();
-
-        mediaMetadata = new MediaMetadata(mMedia, metadataList.get(5), null, isTorUsed);
-        mediaMetadata.save();
-    }
-
-    private void initMetadataValues() {
+    private void getMetadataValues() {
         // set default values
         final TextView tvTitle = (TextView) findViewById(R.id.tv_title);
         final TextView tvDescription = (TextView) findViewById(R.id.tv_description);
@@ -188,6 +153,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
         super.onResume();
 
         init();
-        initMetadataValues();
+        getMetadataValues();
     }
 }

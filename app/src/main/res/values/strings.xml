@@ -68,7 +68,8 @@
     <string name="iv_content_desc">Main Image</string>
 
     <!-- Errors -->
-    <string name="error_on_activity_result">File not found</string>
+    <string name="error_file_not_found">File not found</string>
+    <string name="error_invalid_media_type">File Type not recognized</string>
     <string name="error_no_media">No Media Found!</string>
 
     <!-- Server -->

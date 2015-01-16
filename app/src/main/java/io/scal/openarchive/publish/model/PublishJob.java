@@ -1,6 +1,6 @@
 package io.scal.openarchive.publish.model;
 
-import io.scal.openarchive.Utils;
+import io.scal.openarchive.Utility;
 import io.scal.openarchive.publish.db.StoryMakerDB;
 
 import java.lang.reflect.Type;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.google.api.client.json.Json;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -126,7 +125,7 @@ public class PublishJob extends Model {
         this(context,
             cursor.getInt(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.ID)),
             cursor.getInt(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_PROJECT_ID)),
-            Utils.commaStringToStringArray(cursor.getString(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_SITE_KEYS))),
+            Utility.commaStringToStringArray(cursor.getString(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_SITE_KEYS))),
             cursor.getString(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_METADATA)),
             (!cursor.isNull(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_QUEUED_AT)) ?
                 new Date(cursor.getLong(cursor.getColumnIndex(StoryMakerDB.Schema.PublishJobs.COL_QUEUED_AT))) : null),
@@ -138,7 +137,7 @@ public class PublishJob extends Model {
     protected ContentValues getValues() {
         ContentValues values = new ContentValues();
         values.put(StoryMakerDB.Schema.PublishJobs.COL_PROJECT_ID, projectId);
-        values.put(StoryMakerDB.Schema.PublishJobs.COL_SITE_KEYS, (siteKeys != null) ? Utils.stringArrayToCommaString(siteKeys) : null);
+        values.put(StoryMakerDB.Schema.PublishJobs.COL_SITE_KEYS, (siteKeys != null) ? Utility.stringArrayToCommaString(siteKeys) : null);
         values.put(StoryMakerDB.Schema.PublishJobs.COL_METADATA, metadataString);
         if (queuedAt != null) {
             values.put(StoryMakerDB.Schema.PublishJobs.COL_QUEUED_AT, queuedAt.getTime());
@@ -177,17 +176,17 @@ public class PublishJob extends Model {
         ArrayList<String> selArgs = new ArrayList<String>();
         selArgs.add("" + id);
         
-        if (Utils.stringNotBlank(type)) {
+        if (Utility.stringNotBlank(type)) {
             selection += " and " + StoryMakerDB.Schema.Jobs.COL_TYPE + "=?";
             selArgs.add("" + type);
         } 
         
-        if (Utils.stringNotBlank(site)) {
+        if (Utility.stringNotBlank(site)) {
             selection += " and " + StoryMakerDB.Schema.Jobs.COL_SITE + "=?";
             selArgs.add("" + site);
         } 
         
-        if (Utils.stringNotBlank(spec)) {
+        if (Utility.stringNotBlank(spec)) {
             selection += " and " + StoryMakerDB.Schema.Jobs.COL_SPEC + "=?";
             selArgs.add("" + spec);
         }
