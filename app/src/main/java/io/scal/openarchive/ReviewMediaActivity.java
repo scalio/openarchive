@@ -107,6 +107,7 @@ public class ReviewMediaActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent uploadIntent = new Intent(mContext, MainActivity.class);
+                uploadIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 uploadIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
                 MainActivity.SHOULD_SPIN = true; // FIXME we cannot rely on statics to do inter activity communication
                 startActivity(uploadIntent);
