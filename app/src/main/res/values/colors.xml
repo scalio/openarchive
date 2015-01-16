@@ -12,6 +12,6 @@
     <color name="light_grey">#9e9e9e</color>
     <color name="grey">#757575</color>
     <color name="dark_grey">#424242</color>
-    <color name="light_black">#212121FF</color>
+    <color name="light_black">#212121</color>
     <color name="brand_accent">#A92E33</color>
 </resources>
