@@ -92,6 +92,13 @@ public class MainActivity extends ActionBarActivity
             progressThread.start();
         }
 
+        // FIXME hardcoded
+        if(true) {
+            Intent eee = new Intent(this, MediaListActivity.class);
+            startActivity(eee);
+            finish();
+        }
+
         // handle if started from outside app
         handleOutsideIntent(getIntent());
 

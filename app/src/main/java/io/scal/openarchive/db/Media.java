@@ -233,4 +233,12 @@ public class Media extends SugarRecord<Media> {
 
         return thumbnail;
     }
+
+    public static List<Media> getAllMediaAsList() {
+        return Media.listAll(Media.class);
+    }
+
+    public static Media getMediaById(long mediaId) {
+        return Media.findById(Media.class, mediaId);
+    }
 }
