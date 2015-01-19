@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.io.File;
+import java.io.IOException;
 
 import io.scal.openarchive.db.Media;
 import io.scal.secureshareui.model.Account;
@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-        // set up the drawer.
+        // set up nav drawer
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
@@ -91,6 +91,10 @@ public class MainActivity extends ActionBarActivity
             };
             progressThread.start();
         }
+
+        // handle if started from outside app
+        handleOutsideIntent(getIntent());
+
     }
 
     @Override
@@ -218,5 +222,53 @@ public class MainActivity extends ActionBarActivity
 
         // iniialize db
         Utility.initDB();
+    }
+
+
+    private void handleOutsideIntent(Intent intent) {
+        // Get intent, action and MIME type
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            handleSendImage(intent);
+
+            if (type.startsWith("image/")) {
+                handleSendImage(intent); // handle single image being sent
+            }
+        }
+    }
+
+    void handleSendImage(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (uri != null) {
+
+            String path = null;
+            Media.MEDIA_TYPE mediaType = null;
+
+            path = uri.toString();
+
+            path = Utility.getRealPathFromURI(getApplicationContext(), uri);
+            mediaType = Utility.getMediaType(path);
+
+            Uri imageUri = intent.getData();
+            Bitmap bitmap;
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                int i =1;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            // create media
+            Media media = new Media(getApplicationContext(), path, mediaType);
+
+            Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
+            reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());
+            startActivity(reviewMediaIntent);
+        }
     }
 }

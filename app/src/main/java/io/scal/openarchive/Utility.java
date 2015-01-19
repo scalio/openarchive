@@ -63,6 +63,9 @@ public class Utility {
     }
 
     public static Media.MEDIA_TYPE getMediaType(String mediaPath) {
+        // makes comparisons easier
+        mediaPath = mediaPath.toLowerCase();
+
         String result;
         String fileExtension = MimeTypeMap.getFileExtensionFromUrl(mediaPath);
         result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
@@ -70,7 +73,7 @@ public class Utility {
         if (result == null) {
             if (mediaPath.endsWith("wav")) {
                 result = "audio/wav";
-            } else if (mediaPath.endsWith("mp3")) {
+            } else if (mediaPath.toLowerCase().endsWith("mp3")) {
                 result = "audio/mpeg";
             } else if (mediaPath.endsWith("3gp")) {
                 result = "audio/3gpp";
