@@ -11,13 +11,11 @@ import java.util.Random;
 //import info.guardianproject.onionkit.ui.OrbotHelper;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.MimeTypeMap;
@@ -25,7 +23,6 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import io.scal.openarchive.db.Media;
-import io.scal.openarchive.db.Metadata;
 
 public class Utility {
 
@@ -143,18 +140,6 @@ public class Utility {
             webview.clearFormData();
             webview.loadUrl("about:blank");
             webview.destroy();
-        }
-    }
-
-    //called the first time the app runs to add values to the db
-    public static void initDB() {
-
-        //WARNING: DO NOT change the order of these values
-        String[] defaultValues = {"Title", "Description", "Author", "Location", "Tags", "Use Tor"};
-
-        for (String value : defaultValues) {
-            Metadata metadata = new Metadata(value);
-            metadata.save();
         }
     }
 

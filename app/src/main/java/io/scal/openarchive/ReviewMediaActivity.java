@@ -3,7 +3,6 @@ package io.scal.openarchive;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
-import io.scal.openarchive.db.MediaMetadata;
 
 
 public class ReviewMediaActivity extends ActionBarActivity {
@@ -123,30 +121,11 @@ public class ReviewMediaActivity extends ActionBarActivity {
         final TextView tvLocation = (TextView) findViewById(R.id.tv_location);
         final TextView tvTags = (TextView) findViewById(R.id.tv_tags);
 
-        List<MediaMetadata> mediaMetadataList = MediaMetadata.find(MediaMetadata.class, "media = ?", new String[]{mMedia.getId().toString()});
-
-        // iterate over metadata and retrieve values
-        TextView tvCurrent = null;
-        for (MediaMetadata mm : mediaMetadataList) {
-            long metadataId = mm.getMetadata().getId();
-
-            if (metadataId == 1) {
-                tvCurrent = tvTitle;
-            }
-            else if (metadataId == 2) {
-                tvCurrent = tvDescription;
-            }
-            else if (metadataId == 3) {
-                tvCurrent = tvAuthor;
-            }
-            else if (metadataId == 4) {
-                tvCurrent = tvLocation;
-            }
-            else if (metadataId == 5) {
-                tvCurrent = tvTags;
-            }
-            tvCurrent.setText(mm.getValue());
-        }
+        tvTitle.setText(mMedia.getTitle());
+        tvDescription.setText(mMedia.getDescription());
+        tvAuthor.setText(mMedia.getAuthor());
+        tvLocation.setText(mMedia.getLocation());
+        tvTags.setText(mMedia.getTags());
     }
 
     @Override

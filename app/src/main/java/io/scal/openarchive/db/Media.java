@@ -34,6 +34,12 @@ public class Media extends SugarRecord<Media> {
     private Date updateDate;
     private String serverUrl;
 
+    private String title;
+    private String description;
+    private String author;
+    private String location;
+    private String tags;
+
     public static enum MEDIA_TYPE {
         AUDIO, IMAGE, VIDEO;
     }
@@ -41,15 +47,13 @@ public class Media extends SugarRecord<Media> {
     //left public ONLY for Sugar ORM
     public Media() {};
 
-    public Media(Context mContext, String originalFilePath, MEDIA_TYPE mediaType) {
+    public Media(String originalFilePath, MEDIA_TYPE mediaType) {
         this.originalFilePath = originalFilePath;
         this.mediaType = mediaType;
         this.createDate = new Date();
         this.updateDate = this.createDate;
 
-
         this.save();
-        initMetadataValues(mContext);
     }
 
 
@@ -104,37 +108,44 @@ public class Media extends SugarRecord<Media> {
         this.serverUrl = serverUrl;
     }
 
-    private void initMetadataValues(Context mContext) {
-        // get default metadata sharing values
-        SharedPreferences sharedPref = mContext.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
-        boolean isTitleShared = sharedPref.getBoolean(Globals.PREF_SHARE_TITLE, true);
-        boolean isDescriptionShared = sharedPref.getBoolean(Globals.PREF_SHARE_DESCRIPTION, false);
-        boolean isAuthorShared = sharedPref.getBoolean(Globals.PREF_SHARE_AUTHOR, false);
-        boolean isLocationShared = sharedPref.getBoolean(Globals.PREF_SHARE_LOCATION, false);
-        boolean isTagsShared = sharedPref.getBoolean(Globals.PREF_SHARE_TAGS, false);
-        boolean isTorUsed = sharedPref.getBoolean(Globals.PREF_USE_TOR, false);
+    public String getTitle() {
+        return title;
+    }
 
-        // get list of metadata
-        List<Metadata> metadataList = Metadata.listAll(Metadata.class);
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-        // save one record per metadata item
-        MediaMetadata mediaMetadata = new MediaMetadata(this, metadataList.get(0), mContext.getString(R.string.default_title), isTitleShared);
-        mediaMetadata.save();
+    public String getDescription() {
+        return description;
+    }
 
-        mediaMetadata = new MediaMetadata(this, metadataList.get(1), "", isDescriptionShared);
-        mediaMetadata.save();
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        mediaMetadata = new MediaMetadata(this, metadataList.get(2), "", isAuthorShared);
-        mediaMetadata.save();
+    public String getAuthor() {
+        return author;
+    }
 
-        mediaMetadata = new MediaMetadata(this, metadataList.get(3), "", isLocationShared);
-        mediaMetadata.save();
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-        mediaMetadata = new MediaMetadata(this, metadataList.get(4), mContext.getString(R.string.default_tags), isTagsShared);
-        mediaMetadata.save();
+    public String getLocation() {
+        return location;
+    }
 
-        mediaMetadata = new MediaMetadata(this, metadataList.get(5), null, isTorUsed);
-        mediaMetadata.save();
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public Bitmap getThumbnail(Context context) { // TODO: disk cache, multiple sizes

@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         // FIXME hardcoded
-        if(true) {
+        if(false) {
             Intent eee = new Intent(this, MediaListActivity.class);
             startActivity(eee);
             finish();
@@ -214,7 +214,7 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(getApplicationContext(), R.string.error_invalid_media_type, Toast.LENGTH_SHORT).show();
             } else {
                 // create media
-                Media media = new Media(getApplicationContext(), path, mediaType);
+                Media media = new Media(path, mediaType);
 
                 Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
                 reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());
@@ -226,9 +226,6 @@ public class MainActivity extends ActionBarActivity
     private void initFirstRun(SharedPreferences sp) {
         // set first run flag as false
         sp.edit().putBoolean(Globals.PREF_FIRST_RUN, false).apply();
-
-        // iniialize db
-        Utility.initDB();
     }
 
 
@@ -271,7 +268,7 @@ public class MainActivity extends ActionBarActivity
 
 
             // create media
-            Media media = new Media(getApplicationContext(), path, mediaType);
+            Media media = new Media(path, mediaType);
 
             Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
             reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());

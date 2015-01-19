@@ -21,7 +21,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
-import io.scal.openarchive.db.MediaMetadata;
 
 
 public class ArchiveSettingsActivity extends Activity {
@@ -30,11 +29,11 @@ public class ArchiveSettingsActivity extends Activity {
     private Context mContext = this;
     private Media mMedia;
 
-    private TextView tvTitleValue;
-    private TextView tvDescriptionValue;
-    private TextView tvAuthorValue;
-    private TextView tvTagsValue;
-    private TextView tvLocationValue;
+    private TextView tvTitle;
+    private TextView tvDescription;
+    private TextView tvAuthor;
+    private TextView tvTags;
+    private TextView tvLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,7 @@ public class ArchiveSettingsActivity extends Activity {
         });
 
         // get current media
-        final long mediaId = getIntent().getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, 0);
+        final long mediaId = getIntent().getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, -1);
         // init listeners for textviews
         initViews(mediaId);
 
@@ -126,63 +125,47 @@ public class ArchiveSettingsActivity extends Activity {
     }
 
     private void initViews(long mediaId) {
-        mMedia = Media.findById(Media.class, mediaId);
 
         // instantiate values
-        tvTitleValue = (TextView) findViewById(R.id.tv_title_value);
-        tvDescriptionValue = (TextView) findViewById(R.id.tv_description_value);
-        tvAuthorValue = (TextView) findViewById(R.id.tv_author_value);
-        tvTagsValue = (TextView) findViewById(R.id.tv_tags_value);
-        tvLocationValue = (TextView) findViewById(R.id.tv_location_value);
+        tvTitle = (TextView) findViewById(R.id.tv_title_value);
+        tvDescription = (TextView) findViewById(R.id.tv_description_value);
+        tvAuthor = (TextView) findViewById(R.id.tv_author_value);
+        tvTags = (TextView) findViewById(R.id.tv_tags_value);
+        tvLocation = (TextView) findViewById(R.id.tv_location_value);
 
-        if(mediaId == 0) {
-            tvTitleValue.setVisibility(View.GONE);
-            tvDescriptionValue.setVisibility(View.GONE);
-            tvAuthorValue.setVisibility(View.GONE);
-            tvTagsValue.setVisibility(View.GONE);
-            tvLocationValue.setVisibility(View.GONE);
+        // if valid media id
+        if(mediaId >= 0) {
+            mMedia = Media.getMediaById(mediaId);
+        } else {
+            tvTitle.setVisibility(View.GONE);
+            tvDescription.setVisibility(View.GONE);
+            tvAuthor.setVisibility(View.GONE);
+            tvTags.setVisibility(View.GONE);
+            tvLocation.setVisibility(View.GONE);
 
             return;
-        } else {
-            tvTitleValue.setVisibility(View.VISIBLE);
-            tvDescriptionValue.setVisibility(View.VISIBLE);
-            tvAuthorValue.setVisibility(View.VISIBLE);
-            tvTagsValue.setVisibility(View.VISIBLE);
-            tvLocationValue.setVisibility(View.VISIBLE);
-
-            // set onClick listeners
-            tvTitleValue.setOnClickListener(editValueClick);
-            tvDescriptionValue.setOnClickListener(editValueClick);
-            tvAuthorValue.setOnClickListener(editValueClick);
-            tvTagsValue.setOnClickListener(editValueClick);
-            tvLocationValue.setOnClickListener(editValueClick);
         }
 
-        // get values
-        List<MediaMetadata> mediaMetadataList = MediaMetadata.find(MediaMetadata.class, "media = ?", new String[]{mMedia.getId().toString()});
+        // set to visible
+        tvTitle.setVisibility(View.VISIBLE);
+        tvDescription.setVisibility(View.VISIBLE);
+        tvAuthor.setVisibility(View.VISIBLE);
+        tvTags.setVisibility(View.VISIBLE);
+        tvLocation.setVisibility(View.VISIBLE);
 
-        // iterate over metadata and retrieve values
-        TextView tvCurrent = null;
-        for (MediaMetadata mm : mediaMetadataList) {
-            long metadataId = mm.getMetadata().getId();
+        // set values
+        tvTitle.setText(mMedia.getTitle());
+        tvDescription.setText(mMedia.getDescription());
+        tvAuthor.setText(mMedia.getAuthor());
+        tvLocation.setText(mMedia.getLocation());
+        tvTags.setText(mMedia.getTags());
 
-            if (metadataId == 1) {
-                tvCurrent = tvTitleValue;
-            }
-            else if (metadataId == 2) {
-                tvCurrent = tvDescriptionValue;
-            }
-            else if (metadataId == 3) {
-                tvCurrent = tvAuthorValue;
-            }
-            else if (metadataId == 4) {
-                tvCurrent = tvLocationValue;
-            }
-            else if (metadataId == 5) {
-                tvCurrent = tvTagsValue;
-            }
-            tvCurrent.setText(mm.getValue());
-        }
+        // set onClick listeners
+        tvTitle.setOnClickListener(editValueClick);
+        tvDescription.setOnClickListener(editValueClick);
+        tvAuthor.setOnClickListener(editValueClick);
+        tvTags.setOnClickListener(editValueClick);
+        tvLocation.setOnClickListener(editValueClick);
     }
 
     private OnClickListener editValueClick = new OnClickListener() {
@@ -213,36 +196,13 @@ public class ArchiveSettingsActivity extends Activity {
     };
 
     private void saveMediaMetadata() {
-        List<MediaMetadata> mediaMetadataList = MediaMetadata.find(MediaMetadata.class, "media = ?", new String[]{mMedia.getId().toString()});
+        // set values
+        mMedia.setTitle(tvTitle.getText().toString().trim());
+        mMedia.setDescription(tvDescription.getText().toString().trim());
+        mMedia.setAuthor(tvAuthor.getText().toString().trim());
+        mMedia.setLocation(tvLocation.getText().toString().trim());
+        mMedia.setTags(tvTags.getText().toString().trim());
 
-        TextView tvCurrent = null;
-        // iterate over metadata and store values in db
-        for (MediaMetadata mm : mediaMetadataList) {
-            long metadataId = mm.getMetadata().getId();
-            String value = "";
-
-            if (metadataId == 1) {
-                tvCurrent = tvTitleValue;
-            }
-            else if (metadataId == 2) {
-                tvCurrent = tvDescriptionValue;
-            }
-            else if (metadataId == 3) {
-                tvCurrent = tvAuthorValue;
-            }
-            else if (metadataId == 4) {
-                tvCurrent = tvLocationValue;
-            }
-            else if (metadataId == 5) {
-                tvCurrent = tvTagsValue;
-            }
-
-            if(null != tvCurrent) {
-                value = tvCurrent.getText().toString().trim();
-            }
-
-            mm.setValue(value);
-            mm.save();
-        }
+        mMedia.save();
     }
 }
