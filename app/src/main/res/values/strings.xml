@@ -9,6 +9,7 @@
     <string name="title_activity_first_start">First Start</string>
     <string name="title_activity_view_media">View Media</string>
     <string name="title_activity_archive_metadata">Metadata</string>
+    <string name="title_media_list">Uploads</string>
 
     <!-- General -->
     <string name="lblUpload">UPLOAD MEDIA</string>
@@ -92,7 +93,6 @@
     <string name="uploading_to_internet_archive">Uploading to Internet Archive...</string>
     <string name="lbl_update_value">Update Value</string>
     <string name="lbl_enter_value">Tap To Enter Value</string>
-    <string name="title_media_list">Medias</string>
-    <string name="title_media_detail">Media Detail</string>
+
 
 </resources>
