@@ -92,16 +92,8 @@ public class MainActivity extends ActionBarActivity
             progressThread.start();
         }
 
-        // FIXME hardcoded
-        if(false) {
-            Intent eee = new Intent(this, MediaListActivity.class);
-            startActivity(eee);
-            finish();
-        }
-
         // handle if started from outside app
         handleOutsideIntent(getIntent());
-
     }
 
     @Override
@@ -114,10 +106,14 @@ public class MainActivity extends ActionBarActivity
                         .replace(R.id.container, FragmentMain.newInstance())
                         .commit();
                 break;
-            case 1: //logout
+            case 1: //view uploads
+                Intent mediaListIntent = new Intent(this, MediaListActivity.class);
+                startActivity(mediaListIntent);
+                break;
+            case 2: //logout
                 Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
                 break;
-            case 2: //settings
+            case 3: //settings
                 Intent settingsIntent = new Intent(this, ArchiveSettingsActivity.class);
                 startActivity(settingsIntent);
                 break;

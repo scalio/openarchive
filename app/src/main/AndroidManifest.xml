@@ -99,14 +99,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.scal.openarchive.MainActivity" />
         </activity>
-        <activity
-            android:name=".MediaDetailActivity"
-            android:label="@string/title_media_detail"
-            android:parentActivityName=".MediaListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.scal.openarchive.MediaListActivity" />
-        </activity>
     </application>
 
 </manifest>

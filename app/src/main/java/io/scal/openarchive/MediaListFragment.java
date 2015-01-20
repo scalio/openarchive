@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import io.scal.openarchive.db.Media;
@@ -13,7 +12,7 @@ import io.scal.openarchive.db.Media;
  * A list fragment representing a list of Medias. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link MediaDetailFragment}.
+ * currently being viewed in a {@link ReviewMediaActivity}.
  * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
@@ -70,12 +69,8 @@ public class MediaListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                Media.getAllMediaAsList()));
+        MediaAdapter mediaAdapter = new MediaAdapter(this.getActivity(), R.layout.activity_media_list_row, Media.getAllMediaAsArray());
+        setListAdapter(mediaAdapter);
     }
 
     @Override

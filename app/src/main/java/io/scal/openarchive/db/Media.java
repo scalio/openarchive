@@ -242,11 +242,21 @@ public class Media extends SugarRecord<Media> {
             thumbnail = BitmapFactory.decodeFile(thumbnailFilePath);
         }
 
+        // set to default if none found
+        if(null == thumbnail) {
+            thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+        }
+
         return thumbnail;
     }
 
     public static List<Media> getAllMediaAsList() {
         return Media.listAll(Media.class);
+    }
+
+    public static Media[] getAllMediaAsArray() {
+        List mediaList = getAllMediaAsList();
+        return (Media[]) mediaList.toArray(new Media[mediaList.size()]);
     }
 
     public static Media getMediaById(long mediaId) {

@@ -3,8 +3,11 @@ package io.scal.openarchive;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +20,8 @@ import io.scal.openarchive.db.Media;
 
 
 public class ReviewMediaActivity extends ActionBarActivity {
+    private static String TAG = "ReviewMediaActivity";
+
     private Context mContext = this;
     private Media mMedia;
 
@@ -40,7 +45,7 @@ public class ReviewMediaActivity extends ActionBarActivity {
         Intent intent = getIntent();
 
         // get intent extras
-        long currentMediaId = intent.getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, 0);
+        long currentMediaId = intent.getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, -1);
 
         // get default metadata sharing values
         SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
@@ -53,16 +58,17 @@ public class ReviewMediaActivity extends ActionBarActivity {
         isTorUsed = sharedPref.getBoolean(Globals.PREF_USE_TOR, false);
 
         // check for new file or existing media
-        if (currentMediaId != 0) {
+        if (currentMediaId >= 0) {
             mMedia = Media.findById(Media.class, currentMediaId);
         } else {
             Utility.toastOnUiThread(this, getString(R.string.error_no_media));
             finish();
+            return;
         }
 
-        // display media preview
+        // display media preview if available
         ImageView ivMedia = (ImageView) findViewById(R.id.ivMedia);
-        ivMedia.setImageBitmap(mMedia.getThumbnail(getApplicationContext()));
+        ivMedia.setImageBitmap(mMedia.getThumbnail(mContext));
 
         // show/hide data rows
         TableRow trTitle = (TableRow) findViewById(R.id.tr_title);
@@ -103,7 +109,6 @@ public class ReviewMediaActivity extends ActionBarActivity {
         Button btnUpload = (Button) findViewById(R.id.btnUpload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 Intent uploadIntent = new Intent(mContext, MainActivity.class);
                 uploadIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 uploadIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
@@ -114,6 +119,10 @@ public class ReviewMediaActivity extends ActionBarActivity {
     }
 
     private void getMetadataValues() {
+        if(null == mMedia) {
+            return;
+        }
+
         // set default values
         final TextView tvTitle = (TextView) findViewById(R.id.tv_title);
         final TextView tvDescription = (TextView) findViewById(R.id.tv_description);
