@@ -6,7 +6,6 @@
               android:padding="@dimen/activity_row_padding">
 
     <ImageView android:id="@+id/ivIcon"
-               android:src="@drawable/ic_launcher"
                android:layout_width="48dp"
                android:layout_height="48dp"/>
 
@@ -17,14 +16,14 @@
               android:layout_marginLeft="16dp"
               android:layout_marginRight="16dp"
               android:layout_centerVertical="true"
-              android:text="hello"/>
+              android:singleLine="true"/>
 
     <TextView android:id="@+id/tvCreateDate"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentEnd="true"
               android:layout_centerVertical="true"
-              android:text="11/23/2014"/>
+              android:singleLine="true"/>
 
 </RelativeLayout>
 
