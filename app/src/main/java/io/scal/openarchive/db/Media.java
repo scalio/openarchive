@@ -53,6 +53,8 @@ public class Media extends SugarRecord<Media> {
         this.createDate = new Date();
         this.updateDate = this.createDate;
 
+        this.title = "Default Title";
+
         this.save();
     }
 
@@ -238,6 +240,9 @@ public class Media extends SugarRecord<Media> {
                 Log.e(this.getClass().getName(), "can't create thumbnail file for " + path + ", unsupported medium");
                 thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_thumbnail);
             }
+
+            // save new thumbnail path
+            this.save();
         } else {
             thumbnail = BitmapFactory.decodeFile(thumbnailFilePath);
         }

@@ -36,6 +36,7 @@ public class MediaAdapter extends ArrayAdapter<Media> {
         ImageView ivIcon = (ImageView)rowView.findViewById(R.id.ivIcon);
         TextView tvTitle = (TextView)rowView.findViewById(R.id.tvTitle);
 
+        ivIcon.setImageBitmap(data[position].getThumbnail(mContext));
         tvTitle.setText(data[position].getTitle());
 
         return rowView;
