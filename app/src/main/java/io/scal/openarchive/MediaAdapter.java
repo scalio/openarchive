@@ -33,11 +33,15 @@ public class MediaAdapter extends ArrayAdapter<Media> {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         rowView = inflater.inflate(layoutResourceId, parent, false);
 
+        Media currentMedia = data[position];
+
         ImageView ivIcon = (ImageView)rowView.findViewById(R.id.ivIcon);
         TextView tvTitle = (TextView)rowView.findViewById(R.id.tvTitle);
+        TextView tvCreateDate = (TextView)rowView.findViewById(R.id.tvCreateDate);
 
-        ivIcon.setImageBitmap(data[position].getThumbnail(mContext));
-        tvTitle.setText(data[position].getTitle());
+        ivIcon.setImageBitmap(currentMedia.getThumbnail(mContext));
+        tvTitle.setText(currentMedia.getTitle());
+        tvCreateDate.setText(currentMedia.getFormattedCreateDate());
 
         return rowView;
     }

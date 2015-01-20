@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.scal.openarchive.Globals;
 import io.scal.openarchive.R;
@@ -91,6 +93,12 @@ public class Media extends SugarRecord<Media> {
 
     public Date getCreateDate() {
         return this.createDate;
+    }
+    public String getFormattedCreateDate() {
+        String format = "MM-dd-yyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+
+        return sdf.format(this.createDate);
     }
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
