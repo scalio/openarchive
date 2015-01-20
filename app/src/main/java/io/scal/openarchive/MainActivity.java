@@ -239,6 +239,8 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+
+    //TODO FIXME testing done on imcoming intent.  needs to be tested and cleaned up
     void handleSendImage(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
