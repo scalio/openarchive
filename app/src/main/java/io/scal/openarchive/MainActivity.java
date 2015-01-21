@@ -5,12 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -18,8 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.io.IOException;
 
 import io.scal.openarchive.db.Media;
 import io.scal.secureshareui.model.Account;
@@ -231,39 +227,23 @@ public class MainActivity extends ActionBarActivity
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            handleSendImage(intent);
 
             if (type.startsWith("image/")) {
-                handleSendImage(intent); // handle single image being sent
+                handleOutsideMedia(intent, Media.MEDIA_TYPE.IMAGE); // handle image
+            } else if (type.startsWith("video/")) {
+                handleOutsideMedia(intent, Media.MEDIA_TYPE.VIDEO); // handle video
+            } else if (type.startsWith("audio/")) {
+                handleOutsideMedia(intent, Media.MEDIA_TYPE.AUDIO); // handle audio
             }
         }
     }
 
+    //TODO Needs to be tested from various sources
+    void handleOutsideMedia(Intent intent, Media.MEDIA_TYPE mediaType) {
+        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
-    //TODO FIXME testing done on imcoming intent.  needs to be tested and cleaned up
-    void handleSendImage(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (uri != null) {
-
-            String path = null;
-            Media.MEDIA_TYPE mediaType = null;
-
-            path = uri.toString();
-
-            path = Utility.getRealPathFromURI(getApplicationContext(), uri);
-            mediaType = Utility.getMediaType(path);
-
-            Uri imageUri = intent.getData();
-            Bitmap bitmap;
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                int i =1;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            String path = Utility.getRealPathFromURI(getApplicationContext(), uri);
 
             // create media
             Media media = new Media(path, mediaType);
