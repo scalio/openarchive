@@ -11,7 +11,10 @@ import java.util.Random;
 //import info.guardianproject.onionkit.ui.OrbotHelper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -25,39 +28,6 @@ import android.widget.Toast;
 import io.scal.openarchive.db.Media;
 
 public class Utility {
-
-    public static boolean isOrbotInstalledAndRunning(Context mContext) {
-
-        //TODO
-        //OrbotHelper orbotHelper = new OrbotHelper(mContext);
-        //return (orbotHelper.isOrbotInstalled() && orbotHelper.isOrbotRunning());
-        return false;
-    }
-
-    // TODO audit code for security since we use the to generate random strings for url slugs
-    public static final class RandomString {
-        /* Assign a string that contains the set of characters you allow. */
-        private static final String symbols = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-        private final Random random = new SecureRandom();
-
-        private final char[] buf;
-
-        public RandomString(int length)
-        {
-            if (length < 1)
-                throw new IllegalArgumentException("length < 1: " + length);
-            buf = new char[length];
-        }
-
-        public String nextString()
-        {
-            for (int idx = 0; idx < buf.length; ++idx)
-                buf[idx] = symbols.charAt(random.nextInt(symbols.length()));
-            return new String(buf);
-        }
-
-    }
 
     public static Media.MEDIA_TYPE getMediaType(String mediaPath) {
         // makes comparisons easier

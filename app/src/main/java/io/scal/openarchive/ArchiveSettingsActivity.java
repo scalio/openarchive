@@ -2,25 +2,30 @@ package io.scal.openarchive;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
+import io.scal.secureshareui.lib.Util;
 
 
 public class ArchiveSettingsActivity extends Activity {
@@ -59,6 +64,11 @@ public class ArchiveSettingsActivity extends Activity {
         swUseTor.setChecked(sharedPref.getBoolean(Globals.PREF_USE_TOR, false));
         rgLicense.check(sharedPref.getInt(Globals.PREF_LICENSE_URL, R.id.radioByNcNd));
 
+        // get current media
+        final long mediaId = getIntent().getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, -1);
+        // init listeners for textviews
+        initViews(mediaId);
+
         // set up ccLicense link
         final TextView tvCCLicenseLink = (TextView) findViewById(R.id.tv_cc_license);
         tvCCLicenseLink.setMovementMethod(LinkMovementMethod.getInstance());
@@ -71,10 +81,19 @@ public class ArchiveSettingsActivity extends Activity {
             }
         });
 
-        // get current media
-        final long mediaId = getIntent().getLongExtra(Globals.EXTRA_CURRENT_MEDIA_ID, -1);
-        // init listeners for textviews
-        initViews(mediaId);
+        // set OnClick listeners
+        swUseTor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    // check if tor is installed and display dialog if not
+                    boolean isTorInstalled = Util.checkIsTorInstalledDialog(mContext);
+
+                    // mark tor switched based on returned value
+                    buttonView.setChecked(isTorInstalled);
+                }
+            }
+        });
 
         btnSave.setOnClickListener(new OnClickListener() {
             @Override

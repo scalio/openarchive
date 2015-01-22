@@ -81,7 +81,7 @@
     <string name="lbl_cancelled">Canceled</string>
     <string name="lbl_success">Success</string>
     <string name="lbl_continue">Continue</string>
-    <string name="archive_title">Email Confimation</string>
+    <string name="archive_title">Email Confirmation</string>
     <string name="archive_message">Please confirm your email and return to connect your Archive account.</string>
     <string name="archive_license_by" translatable="false"><a href="https://creativecommons.org/licenses/by/4.0/">Attribution</a></string>
     <string name="archive_license_bysa" translatable="false"><a href="https://creativecommons.org/licenses/by-sa/4.0/">Attribution-ShareAlike</a></string>
@@ -93,6 +93,5 @@
     <string name="uploading_to_internet_archive">Uploading to Internet Archive...</string>
     <string name="lbl_update_value">Update Value</string>
     <string name="lbl_enter_value">Tap To Enter Value</string>
-
 
 </resources>
