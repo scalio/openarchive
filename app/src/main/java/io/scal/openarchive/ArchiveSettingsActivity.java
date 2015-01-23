@@ -121,7 +121,7 @@ public class ArchiveSettingsActivity extends Activity {
 
                 // save value changes in db
                 if(null != mMedia) {
-                    saveMediaMetadata();
+                    saveMediaMetadata(swUseTor.isChecked());
 
                     Intent reviewMediaIntent = new Intent(mContext, ReviewMediaActivity.class);
                     reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
@@ -214,13 +214,14 @@ public class ArchiveSettingsActivity extends Activity {
         }
     };
 
-    private void saveMediaMetadata() {
+    private void saveMediaMetadata(boolean useTor) {
         // set values
         mMedia.setTitle(tvTitle.getText().toString().trim());
         mMedia.setDescription(tvDescription.getText().toString().trim());
         mMedia.setAuthor(tvAuthor.getText().toString().trim());
         mMedia.setLocation(tvLocation.getText().toString().trim());
         mMedia.setTags(tvTags.getText().toString().trim());
+        mMedia.setUseTor(useTor);
 
         mMedia.save();
     }
