@@ -51,9 +51,6 @@ public class MainActivity extends ActionBarActivity
             initFirstRun(sp);
         }
 
-        Account account = new Account(this, null);
-        Toast.makeText(this, "Username: " + account.getUserName() + ", credentials: " + account.getCredentials(), Toast.LENGTH_LONG).show();
-
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
