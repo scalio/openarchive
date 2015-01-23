@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +35,14 @@ public class ArchiveSettingsActivity extends Activity {
     private Context mContext = this;
     private Media mMedia;
 
+    private Switch swTitle;
+    private Switch swDescription;
+    private Switch swAuthor;
+    private Switch swTags;
+    private Switch swLocation;
+    private Switch swUseTor;
+    private RadioGroup rgLicense;
+
     private TextView tvTitle;
     private TextView tvDescription;
     private TextView tvAuthor;
@@ -44,18 +53,19 @@ public class ArchiveSettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive_metadata);
-        Button btnSave = (Button) findViewById(R.id.btnSave);
 
-        final Switch swTitle = (Switch) findViewById(R.id.sw_title);
-        final Switch swDescription = (Switch) findViewById(R.id.sw_description);
-        final Switch swAuthor = (Switch) findViewById(R.id.sw_author);
-        final Switch swTags = (Switch) findViewById(R.id.sw_tags);
-        final Switch swLocation = (Switch) findViewById(R.id.sw_location);
-        final Switch swUseTor = (Switch) findViewById(R.id.sw_use_tor);
-        final RadioGroup rgLicense = (RadioGroup) findViewById(R.id.radioGroupCC);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        swTitle = (Switch) findViewById(R.id.sw_title);
+        swDescription = (Switch) findViewById(R.id.sw_description);
+        swAuthor = (Switch) findViewById(R.id.sw_author);
+        swTags = (Switch) findViewById(R.id.sw_tags);
+        swLocation = (Switch) findViewById(R.id.sw_location);
+        swUseTor = (Switch) findViewById(R.id.sw_use_tor);
+        rgLicense = (RadioGroup) findViewById(R.id.radioGroupCC);
 
         // set defaults based on previous selections
-        final SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
         swTitle.setChecked(sharedPref.getBoolean(Globals.PREF_SHARE_TITLE, true));
         swDescription.setChecked(sharedPref.getBoolean(Globals.PREF_SHARE_DESCRIPTION, false));
         swAuthor.setChecked(sharedPref.getBoolean(Globals.PREF_SHARE_AUTHOR, false));
@@ -94,43 +104,23 @@ public class ArchiveSettingsActivity extends Activity {
                 }
             }
         });
+    }
 
-        btnSave.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String licenseUrl = null;
-                int licenseId = rgLicense.getCheckedRadioButtonId();
-                if (licenseId == R.id.radioBy) {
-                    licenseUrl = "https://creativecommons.org/licenses/by/4.0/";
-                } else if (licenseId == R.id.radioBySa) {
-                    licenseUrl = "https://creativecommons.org/licenses/by-sa/4.0/";
-                } else { // ByNcNd is default
-                    licenseUrl = "http://creativecommons.org/licenses/by-nc-nd/4.0/";
-                }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                saveMediaMetadata();
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-                // save defaults for future selections
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean(Globals.PREF_SHARE_TITLE, swTitle.isChecked());
-                editor.putBoolean(Globals.PREF_SHARE_DESCRIPTION, swDescription.isChecked());
-                editor.putBoolean(Globals.PREF_SHARE_AUTHOR, swAuthor.isChecked());
-                editor.putBoolean(Globals.PREF_SHARE_LOCATION, swLocation.isChecked());
-                editor.putBoolean(Globals.PREF_SHARE_TAGS, swTags.isChecked());
-                editor.putBoolean(Globals.PREF_USE_TOR, swUseTor.isChecked());
-                editor.putInt(Globals.PREF_LICENSE_URL, licenseId);
-                editor.apply();
-
-                // save value changes in db
-                if(null != mMedia) {
-                    saveMediaMetadata(swUseTor.isChecked());
-
-                    Intent reviewMediaIntent = new Intent(mContext, ReviewMediaActivity.class);
-                    reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, mMedia.getId());
-                    startActivity(reviewMediaIntent);
-                } else {
-                    finish();
-                }
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        saveMediaMetadata();
+        super.onBackPressed();
     }
 
     private void setCCLicenseText(int licenseId, TextView tvCCLicenseLink) {
@@ -144,7 +134,6 @@ public class ArchiveSettingsActivity extends Activity {
     }
 
     private void initViews(long mediaId) {
-
         // instantiate values
         tvTitle = (TextView) findViewById(R.id.tv_title_value);
         tvDescription = (TextView) findViewById(R.id.tv_description_value);
@@ -214,15 +203,40 @@ public class ArchiveSettingsActivity extends Activity {
         }
     };
 
-    private void saveMediaMetadata(boolean useTor) {
-        // set values
-        mMedia.setTitle(tvTitle.getText().toString().trim());
-        mMedia.setDescription(tvDescription.getText().toString().trim());
-        mMedia.setAuthor(tvAuthor.getText().toString().trim());
-        mMedia.setLocation(tvLocation.getText().toString().trim());
-        mMedia.setTags(tvTags.getText().toString().trim());
-        mMedia.setUseTor(useTor);
+    private void saveMediaMetadata() {
+        String licenseUrl = null;
+        int licenseId = rgLicense.getCheckedRadioButtonId();
+        if (licenseId == R.id.radioBy) {
+            licenseUrl = "https://creativecommons.org/licenses/by/4.0/";
+        } else if (licenseId == R.id.radioBySa) {
+            licenseUrl = "https://creativecommons.org/licenses/by-sa/4.0/";
+        } else { // ByNcNd is default
+            licenseUrl = "http://creativecommons.org/licenses/by-nc-nd/4.0/";
+        }
 
-        mMedia.save();
+        // save defaults for future selections
+        SharedPreferences sharedPref = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(Globals.PREF_SHARE_TITLE, swTitle.isChecked());
+        editor.putBoolean(Globals.PREF_SHARE_DESCRIPTION, swDescription.isChecked());
+        editor.putBoolean(Globals.PREF_SHARE_AUTHOR, swAuthor.isChecked());
+        editor.putBoolean(Globals.PREF_SHARE_LOCATION, swLocation.isChecked());
+        editor.putBoolean(Globals.PREF_SHARE_TAGS, swTags.isChecked());
+        editor.putBoolean(Globals.PREF_USE_TOR, swUseTor.isChecked());
+        editor.putInt(Globals.PREF_LICENSE_URL, licenseId);
+        editor.apply();
+
+        // save value changes in db
+        if(null != mMedia) {
+            // set values
+            mMedia.setTitle(tvTitle.getText().toString().trim());
+            mMedia.setDescription(tvDescription.getText().toString().trim());
+            mMedia.setAuthor(tvAuthor.getText().toString().trim());
+            mMedia.setLocation(tvLocation.getText().toString().trim());
+            mMedia.setTags(tvTags.getText().toString().trim());
+            mMedia.setUseTor(swUseTor.isChecked());
+
+            mMedia.save();
+        }
     }
 }

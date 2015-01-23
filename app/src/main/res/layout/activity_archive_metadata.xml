@@ -319,15 +319,5 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="@string/lblSave"
-        android:textSize="14sp" />
-
 </LinearLayout>
 </ScrollView>
