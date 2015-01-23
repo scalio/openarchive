@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import io.scal.openarchive.db.Media;
-import io.scal.secureshareui.model.Account;
 
 
 public class MainActivity extends ActionBarActivity
@@ -213,6 +212,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void initFirstRun(SharedPreferences sp) {
+        //Do firstRUn things here
+
+
         // set first run flag as false
         sp.edit().putBoolean(Globals.PREF_FIRST_RUN, false).apply();
     }
