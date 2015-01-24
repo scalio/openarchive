@@ -46,11 +46,10 @@ class EulaActivity {
      * @return Whether the user has agreed already.
      */
     boolean show() {
-        final SharedPreferences prefsEula = mActivity.getSharedPreferences(Globals.PREFERENCES_EULA, Activity.MODE_PRIVATE);
-        final SharedPreferences prefsAnalytics = mActivity.getSharedPreferences(Globals.PREFERENCES_ANALYTICS, Activity.MODE_PRIVATE);
+        final SharedPreferences sharedPrefs = mActivity.getSharedPreferences(Globals.PREF_FILE_KEY, Activity.MODE_PRIVATE);
         // boolean noOptIn =
         // !prefsAnalytics.contains(Globals.PREFERENCE_ANALYTICS_OPTIN);
-        boolean noEula = !prefsEula.getBoolean(Globals.PREFERENCE_EULA_ACCEPTED, false);
+        boolean noEula = !sharedPrefs.getBoolean(Globals.PREF_EULA_ACCEPTED, false);
 
         // if (noEula || noOptIn) {
         if (noEula) {
@@ -63,7 +62,7 @@ class EulaActivity {
             builder.setCancelable(true);
             builder.setPositiveButton(R.string.eula_accept, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    accept(prefsEula);
+                    accept(sharedPrefs);
                     if (mActivity instanceof OnEulaAgreedTo) {
                         ((OnEulaAgreedTo) mActivity).onEulaAgreedTo();
                     }
@@ -94,13 +93,13 @@ class EulaActivity {
      * @return whether the EULA was accepted
      */
     public static boolean isAccepted(Context context) {
-        SharedPreferences prefsEula = context.getSharedPreferences(
-                Globals.PREFERENCES_EULA, Activity.MODE_PRIVATE);
-        return prefsEula.getBoolean(Globals.PREFERENCE_EULA_ACCEPTED, false);
+        SharedPreferences sharedPrefs = context.getSharedPreferences(
+                Globals.PREF_FILE_KEY, Activity.MODE_PRIVATE);
+        return sharedPrefs.getBoolean(Globals.PREF_EULA_ACCEPTED, false);
     }
 
     private void accept(SharedPreferences preferences) {
-        preferences.edit().putBoolean(Globals.PREFERENCE_EULA_ACCEPTED, true).commit();
+        preferences.edit().putBoolean(Globals.PREF_EULA_ACCEPTED, true).commit();
     }
 
     private static void refuse(Activity activity) {

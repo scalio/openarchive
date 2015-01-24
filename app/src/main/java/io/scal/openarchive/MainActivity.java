@@ -1,8 +1,10 @@
 package io.scal.openarchive;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -103,7 +105,7 @@ public class MainActivity extends ActionBarActivity
                 startActivity(mediaListIntent);
                 break;
             case 2: //logout
-                Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
+                handleLogout();
                 break;
             case 3: //settings
                 Intent settingsIntent = new Intent(this, ArchiveSettingsActivity.class);
@@ -238,7 +240,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     //TODO Needs to be tested from various sources
-    void handleOutsideMedia(Intent intent, Media.MEDIA_TYPE mediaType) {
+    private void handleOutsideMedia(Intent intent, Media.MEDIA_TYPE mediaType) {
         Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
         if (uri != null) {
@@ -251,5 +253,27 @@ public class MainActivity extends ActionBarActivity
             reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());
             startActivity(reviewMediaIntent);
         }
+    }
+
+    private void handleLogout() {
+        final SharedPreferences sharedPrefs = this.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.alert_lbl_logout)
+                .setCancelable(true)
+                .setMessage(R.string.alert_logout)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //clear all user prefs
+                        sharedPrefs.edit().clear().commit();
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

@@ -18,6 +18,10 @@
     <string name="loading_title">Uploading</string>
     <string name="loading_message">Please wait...</string>
 
+    <!-- Errors -->
+    <string name="alert_lbl_logout">Logout</string>
+    <string name="alert_logout">Logging out will remove all your settings but still keep your uploads. Continue?</string>
+
     <!-- Default Values -->
     <string name="default_title">My Title</string>
     <string name="default_tags">openarchive, storymaker</string>
@@ -72,8 +76,8 @@
     <string name="error_no_media">No Media Found!</string>
 
     <!-- Server -->
-    <string name="lbl_Yes">Yes</string>
-    <string name="lbl_Cancel">Cancel</string>
+    <string name="lbl_Yes">YES</string>
+    <string name="lbl_Cancel">CANCEL</string>
     <string name="lbl_off">Off</string>
     <string name="lbl_on">On</string>
     <string name="lbl_ok">OK</string>
