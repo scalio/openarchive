@@ -1,7 +1,6 @@
 package io.scal.openarchive.db;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -20,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.scal.openarchive.Globals;
 import io.scal.openarchive.R;
 import io.scal.openarchive.Utility;
 
@@ -283,5 +281,10 @@ public class Media extends SugarRecord<Media> {
 
     public static Media getMediaById(long mediaId) {
         return Media.findById(Media.class, mediaId);
+    }
+
+    public static void deleteMediaById(long mediaId) {
+        Media media = Media.findById(Media.class, mediaId);
+        media.delete();
     }
 }

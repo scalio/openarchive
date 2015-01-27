@@ -273,7 +273,7 @@ public class MainActivity extends ActionBarActivity
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_dialog_alert_holo_light)
                 .show();
     }
 }
