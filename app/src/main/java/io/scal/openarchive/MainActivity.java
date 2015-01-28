@@ -204,7 +204,7 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(getApplicationContext(), R.string.error_invalid_media_type, Toast.LENGTH_SHORT).show();
             } else {
                 // create media
-                Media media = new Media(path, mediaType);
+                Media media = new Media(this, path, mediaType);
 
                 Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
                 reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());
@@ -247,7 +247,7 @@ public class MainActivity extends ActionBarActivity
             String path = Utility.getRealPathFromURI(getApplicationContext(), uri);
 
             // create media
-            Media media = new Media(path, mediaType);
+            Media media = new Media(this, path, mediaType);
 
             Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
             reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, media.getId());

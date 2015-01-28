@@ -48,13 +48,14 @@ public class Media extends SugarRecord<Media> {
     //left public ONLY for Sugar ORM
     public Media() {};
 
-    public Media(String originalFilePath, MEDIA_TYPE mediaType) {
+    public Media(Context context, String originalFilePath, MEDIA_TYPE mediaType) {
         this.originalFilePath = originalFilePath;
         this.mediaType = mediaType;
         this.createDate = new Date();
         this.updateDate = this.createDate;
 
-        this.title = "Default Title";
+        this.title = context.getString(R.string.default_title);
+        this.tags = context.getString(R.string.default_tags);
 
         this.save();
     }
