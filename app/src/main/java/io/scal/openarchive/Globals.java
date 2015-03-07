@@ -6,21 +6,14 @@ package io.scal.openarchive;
 public class Globals {
 
     // EULA
-    public static final String ASSET_EULA               = "EULA";
-    public static final String PREFERENCE_EULA_ACCEPTED = "eula.accepted";
-    public static final String PREFERENCES_EULA         = "eula";
-    public static final String PREFERENCES_ANALYTICS    = "analytics";
+    public static final String ASSET_EULA         = "EULA";
+    public static final String PREF_EULA_ACCEPTED = "eula.accepted";
 
     // request Codes used for media import and capture
     public static final int REQUEST_VIDEO_CAPTURE = 100;
     public static final int REQUEST_IMAGE_CAPTURE = 101;
     public static final int REQUEST_AUDIO_CAPTURE = 102;
     public static final int REQUEST_FILE_IMPORT   = 103;
-
-    // netcipher
-    public static final String ORBOT_HOST       = "127.0.0.1";
-    public static final int ORBOT_HTTP_PORT     = 8118;
-    public static final int ORBOT_SOCKS_PORT    = 9050;
 
     // intent extras
     public static final String EXTRA_FILE_LOCATION      = "archive_extra_file_location";

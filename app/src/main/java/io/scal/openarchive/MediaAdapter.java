@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import io.scal.openarchive.db.Media;
 
 /**
@@ -18,9 +20,9 @@ public class MediaAdapter extends ArrayAdapter<Media> {
 
     Context mContext;
     int layoutResourceId;
-    Media data[] = null;
+    List<Media> data;
 
-    public MediaAdapter(Context context, int layoutResourceId, Media[] data) {
+    public MediaAdapter(Context context, int layoutResourceId, List<Media> data) {
         super(context, layoutResourceId, data);
 
         this.layoutResourceId = layoutResourceId;
@@ -33,7 +35,7 @@ public class MediaAdapter extends ArrayAdapter<Media> {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         rowView = inflater.inflate(layoutResourceId, parent, false);
 
-        Media currentMedia = data[position];
+        Media currentMedia = data.get(position);
 
         ImageView ivIcon = (ImageView)rowView.findViewById(R.id.ivIcon);
         TextView tvTitle = (TextView)rowView.findViewById(R.id.tvTitle);

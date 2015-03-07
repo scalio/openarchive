@@ -20,7 +20,15 @@
 
     <!-- Default Values -->
     <string name="default_title">My Title</string>
-    <string name="default_tags">openarchive, storymaker</string>
+    <string name="default_tags">#openarchive  #storymaker</string>
+
+    <!-- Alert Values -->
+    <string name="alert_lbl_logout">Logout?</string>
+    <string name="alert_logout">Logging out will remove all your settings but still keep your uploads.</string>
+
+    <string name="alert_lbl_delete_media">Delete Media?</string>
+    <string name="alert_media_deleted">Media successfully deleted</string>
+    <string name="alert_delete_media">This media will be permanently erased.</string>
 
     <!-- NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -72,8 +80,8 @@
     <string name="error_no_media">No Media Found!</string>
 
     <!-- Server -->
-    <string name="lbl_Yes">Yes</string>
-    <string name="lbl_Cancel">Cancel</string>
+    <string name="lbl_Yes">YES</string>
+    <string name="lbl_Cancel">CANCEL</string>
     <string name="lbl_off">Off</string>
     <string name="lbl_on">On</string>
     <string name="lbl_ok">OK</string>

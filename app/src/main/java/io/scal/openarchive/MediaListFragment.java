@@ -1,23 +1,20 @@
 package io.scal.openarchive;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import io.scal.openarchive.db.Media;
 
-/**
- * A list fragment representing a list of Medias. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link ReviewMediaActivity}.
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
 public class MediaListFragment extends ListFragment {
+
+    public MediaAdapter mMediaAdapter;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -26,37 +23,10 @@ public class MediaListFragment extends ListFragment {
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
     /**
-     * The fragment's current callback object, which is notified of list item
-     * clicks.
-     */
-    private Callbacks mCallbacks = sMediaCallbacks;
-
-    /**
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    /**
-     * A callback interface that all activities containing this fragment must
-     * implement. This mechanism allows activities to be notified of item
-     * selections.
-     */
-    public interface Callbacks {
-        /**
-         * Callback for when an item has been selected.
-         */
-        public void onItemSelected(String id);
-    }
-
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sMediaCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(String id) {
-        }
-    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -69,8 +39,7 @@ public class MediaListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MediaAdapter mediaAdapter = new MediaAdapter(this.getActivity(), R.layout.activity_media_list_row, Media.getAllMediaAsArray());
-        setListAdapter(mediaAdapter);
+        initMediaAdapter();
     }
 
     @Override
@@ -82,34 +51,46 @@ public class MediaListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        // Init onClickListeners
+        getListView().setOnItemClickListener(onItemClickListener);
+        getListView().setOnItemLongClickListener(onItemLongClickListener);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+    ListView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent reviewMediaIntent = new Intent(getActivity(), ReviewMediaActivity.class);
+            reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, getMediaIdByPosition(position));
+            startActivity(reviewMediaIntent);
         }
+    };
 
-        mCallbacks = (Callbacks) activity;
-    }
+    ListView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = sMediaCallbacks;
-    }
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.alert_lbl_delete_media)
+                    .setCancelable(true)
+                    .setMessage(R.string.alert_delete_media)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Media.deleteMediaById(getMediaIdByPosition(position));
+                            initMediaAdapter();
+                            mMediaAdapter.notifyDataSetChanged();
+                            Toast.makeText(getActivity(), R.string.alert_media_deleted, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {}
+                    })
+                    .setIcon(R.drawable.ic_dialog_alert_holo_light)
+                    .show();
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Media.getAllMediaAsList().get(position).getId().toString());
-    }
+            return true;
+        }
+    };
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -140,5 +121,14 @@ public class MediaListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    private void initMediaAdapter() {
+        mMediaAdapter = new MediaAdapter(this.getActivity(), R.layout.activity_media_list_row, Media.getAllMediaAsList());
+        setListAdapter(mMediaAdapter);
+    }
+
+    private long getMediaIdByPosition(int position) {
+        return Media.getAllMediaAsList().get(position).getId();
     }
 }

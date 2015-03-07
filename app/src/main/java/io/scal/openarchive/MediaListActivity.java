@@ -1,13 +1,19 @@
 package io.scal.openarchive;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
+import io.scal.openarchive.db.Media;
 
 
-public class MediaListActivity extends FragmentActivity
-        implements MediaListFragment.Callbacks {
+public class MediaListActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,12 +22,5 @@ public class MediaListActivity extends FragmentActivity
 
         // Show the Up button in the action bar.
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void onItemSelected(String id) {
-        Intent reviewMediaIntent = new Intent(this, ReviewMediaActivity.class);
-        reviewMediaIntent.putExtra(Globals.EXTRA_CURRENT_MEDIA_ID, Long.parseLong(id));
-        startActivity(reviewMediaIntent);
     }
 }
