@@ -23,9 +23,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.scal.openarchive.db.Media;
+import io.scal.secureshareui.controller.SiteController;
+import io.scal.secureshareui.lib.ArchiveMetadataActivity;
 import io.scal.secureshareui.lib.Util;
 
 
@@ -203,6 +206,9 @@ public class ArchiveSettingsActivity extends Activity {
         }
     };
 
+    // TODO helper method to grab the shared prefs and return a values hashmap
+
+    // TODO this also needs to store what the sharing prefs were when this was submitted I believe
     private void saveMediaMetadata() {
         String licenseUrl = null;
         int licenseId = rgLicense.getCheckedRadioButtonId();
@@ -223,7 +229,7 @@ public class ArchiveSettingsActivity extends Activity {
         editor.putBoolean(Globals.PREF_SHARE_LOCATION, swLocation.isChecked());
         editor.putBoolean(Globals.PREF_SHARE_TAGS, swTags.isChecked());
         editor.putBoolean(Globals.PREF_USE_TOR, swUseTor.isChecked());
-        editor.putInt(Globals.PREF_LICENSE_URL, licenseId);
+        editor.putInt(Globals.PREF_LICENSE_URL, licenseId); // FIXME this should store the license url not the idx
         editor.apply();
 
         // save value changes in db
@@ -238,5 +244,48 @@ public class ArchiveSettingsActivity extends Activity {
 
             mMedia.save();
         }
+    }
+
+    public static String getSlug(String title) {
+        // FIXME only do this if they are sharing title, otherwise use a random string of chars
+        return title.replace(' ', '-'); // FIXME need a real, i18n aware slug algorithm -- http://docs.aws.amazon.com/AmazonS3/latest/UG/CreatingaBucket.html
+    }
+
+    public static HashMap<String, String> getMediaMetadata(Context context, Media mMedia) {
+        HashMap<String, String> valueMap = new HashMap<String, String>();
+        SharedPreferences sharedPref = context.getSharedPreferences(Globals.PREF_FILE_KEY, Context.MODE_PRIVATE);
+
+        boolean isTorUsed = true;
+        boolean isTitleShared = true;
+        boolean isTagsShared = true;
+        boolean isAuthorShared = true;
+        boolean isLocationShared = true;
+        boolean isDescriptionShared = true;
+
+        String path = Util.getPath(context, Uri.parse(mMedia.getOriginalFilePath()));
+
+        valueMap.put(SiteController.VALUE_KEY_MEDIA_PATH, path);
+        valueMap.put(SiteController.VALUE_KEY_USE_TOR, isTorUsed ? "true" : "false");
+        valueMap.put(SiteController.VALUE_KEY_LICENSE_URL, "https://creativecommons.org/licenses/by/4.0/"); // TODO
+        valueMap.put(SiteController.VALUE_KEY_SLUG, getSlug(mMedia.getTitle()));
+
+        valueMap.put(SiteController.VALUE_KEY_TITLE, mMedia.getTitle());
+        valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_TITLE, isTitleShared ? "true" : "false");
+
+        valueMap.put(SiteController.VALUE_KEY_TAGS, mMedia.getTags());
+        valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_TAGS, isTagsShared ? "true" : "false");
+
+        valueMap.put(SiteController.VALUE_KEY_AUTHOR, mMedia.getAuthor());
+        valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_AUTHOR, isAuthorShared ? "true" : "false");
+
+        valueMap.put(SiteController.VALUE_KEY_PROFILE_URL, "TESTING"); // TODO
+
+        valueMap.put(SiteController.VALUE_KEY_LOCATION_NAME, "TESTING"); // TODO
+        valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_LOCATION, isLocationShared ? "true" : "false");
+
+        valueMap.put(SiteController.VALUE_KEY_BODY, mMedia.getDescription());
+        valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_DESCRIPTION, isDescriptionShared ? "true" : "false");
+
+        return valueMap;
     }
 }
