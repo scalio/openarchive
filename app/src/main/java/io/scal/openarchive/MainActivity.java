@@ -107,7 +107,11 @@ public class MainActivity extends ActionBarActivity
             case 2: //logout
                 handleLogout();
                 break;
-            case 3: //settings
+            case 3: //about
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                break;
+            case 4: //settings
                 Intent settingsIntent = new Intent(this, ArchiveSettingsActivity.class);
                 startActivity(settingsIntent);
                 break;

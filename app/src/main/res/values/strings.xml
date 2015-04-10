@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Activities -->
-    <string name="app_name">Open Archive</string>
+    <string name="app_name">OpenArchive</string>
     <string name="title_activity_main">Capture Media</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_settings">Settings</string>
@@ -14,7 +14,7 @@
     <!-- General -->
     <string name="lblUpload">Upload Media</string>
     <string name="lblEditMetadata">Edit Media</string>
-    <string name="lblSave">SAVE</string>
+    <string name="lblSave">Save</string>
     <string name="loading_title">Uploading</string>
     <string name="loading_message">Please wait…</string>
 
@@ -64,9 +64,9 @@
     <string name="import_btn">Import</string>
     <string name="capture_btn">Capture</string>
 
-    <string name="drawer_photo">Photo</string>
-    <string name="drawer_video">Video</string>
-    <string name="drawer_audio">Audio</string>
+    <string name="capture_photo">Photo</string>
+    <string name="capture_video">Video</string>
+    <string name="capture_audio">Audio</string>
 
     <!-- ViewMediaActivity -->
     <string name="iv_content_desc">Main Image</string>
@@ -102,6 +102,6 @@
     <string name="title_activity_about">AboutActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="about_body">OpenArchive is a free, open-source mobile application for journalists, activists, and citizen documentarians to securely preserve their media at the Internet Archive. It sends media over Tor and offers creative commons licensing to give communities more agency over their media, respects civil liberties, and increases interoperability for researchers, scholars, and others interested in finding and reusing it in the future.\n\nOpen Archive was developed in partnership with Scal.io and StoryMaker as part of the Open Archive project with the generous support of the Knight Foundation.</string>
+    <string name="about_body"><a href="http://openarchive.org">OpenArchive</a> is a free, open-source mobile application for journalists, activists, and citizen documentarians to securely preserve their media at the Internet Archive. It sends media over Tor and offers creative commons licensing to give communities more agency over their media, respects civil liberties, and increases interoperability for researchers, scholars, and others interested in finding and reusing it in the future.\n\nOpen Archive was developed in partnership with <a href="http://scal.io">Scal.io</a>, <a href="http://storymaker.org">StoryMaker</a> and <a href="http://archive.org">Internet Archive</a> as part of the OpenArchive project with the generous support of the <a href="http://knightfoundation.org">Knight Foundation</a>.</string>
 
 </resources>

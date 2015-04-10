@@ -20,7 +20,6 @@
 
     <!-- Required to sign in or register with archive.org -->
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
@@ -48,16 +47,18 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <!-- filter for sending text or images; accepts SEND action and audio/photo/video data -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
-                <data android:mimeType="video/*"  />
+                <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
         <activity
@@ -68,7 +69,8 @@
         <activity
             android:name=".ReviewMediaActivity"
             android:label="@string/title_activity_view_media"
-            android:screenOrientation="portrait" >/>
+            android:screenOrientation="portrait" >
+/>
         </activity>
         <activity
             android:name=".ArchiveSettingsActivity"
@@ -90,7 +92,15 @@
             android:label="@string/title_media_list"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingsTheme">
+            android:theme="@style/SettingsTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.scal.openarchive.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.scal.openarchive.MainActivity" />
