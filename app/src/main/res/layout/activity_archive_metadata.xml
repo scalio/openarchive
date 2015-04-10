@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/iv_title"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_picture" />
@@ -72,8 +72,8 @@
 
         <ImageView
             android:id="@+id/iv_description"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
@@ -111,8 +111,8 @@
 
         <ImageView
             android:id="@+id/iv_author"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
@@ -152,8 +152,8 @@
 
         <ImageView
             android:id="@+id/iv_location"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_location" />
@@ -193,8 +193,8 @@
 
         <ImageView
             android:id="@+id/iv_tags"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_location" />
@@ -234,8 +234,8 @@
 
         <ImageView
             android:id="@+id/iv_use_tor"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
             android:src="@drawable/ic_action_emo_basic" />
