@@ -55,7 +55,7 @@ public class Media extends SugarRecord<Media> {
         this.updateDate = this.createDate;
 
         this.title = context.getString(R.string.default_title);
-        this.tags = context.getString(R.string.default_tags);
+//        this.tags = context.getString(R.string.default_tags);
 
         this.save();
     }
@@ -155,6 +155,9 @@ public class Media extends SugarRecord<Media> {
     }
 
     public void setTags(String tags) {
+        // repace spaces and commas with semicolons
+        tags = tags.replace(' ', ';');
+        tags = tags.replace(',', ';');
         this.tags = tags;
     }
 

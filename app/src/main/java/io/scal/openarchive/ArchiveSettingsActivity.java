@@ -272,7 +272,8 @@ public class ArchiveSettingsActivity extends Activity {
         valueMap.put(SiteController.VALUE_KEY_TITLE, mMedia.getTitle());
         valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_TITLE, isTitleShared ? "true" : "false");
 
-        valueMap.put(SiteController.VALUE_KEY_TAGS, mMedia.getTags());
+        String tags = context.getString(R.string.default_tags) + ";" + mMedia.getTags(); // FIXME are keywords/tags separated by spaces or commas?
+        valueMap.put(SiteController.VALUE_KEY_TAGS, tags);
         valueMap.put(ArchiveMetadataActivity.INTENT_EXTRA_SHARE_TAGS, isTagsShared ? "true" : "false");
 
         valueMap.put(SiteController.VALUE_KEY_AUTHOR, mMedia.getAuthor());

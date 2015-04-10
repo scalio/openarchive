@@ -20,7 +20,7 @@
 
     <!-- Default Values -->
     <string name="default_title">My Title</string>
-    <string name="default_tags">#openarchive  #storymaker</string>
+    <string name="default_tags">openarchive</string>
 
     <!-- Alert Values -->
     <string name="alert_lbl_logout">Logout?</string>
