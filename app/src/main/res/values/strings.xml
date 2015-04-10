@@ -36,12 +36,11 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="ar_title_menu_sections">
-        <item>Home</item>
-        <item>Uploads</item>
-        <item>Logout</item>
-        <item>Settings</item>
-    </string-array>
+    <string name="drawer_home">Home</string>
+    <string name="drawer_uploads">Uploads</string>
+    <string name="drawer_logout">Logout</string>
+    <string name="drawer_about">About</string>
+    <string name="drawer_settings">Settings</string>
 
     <!-- EULA/Terms of Service -->
     <string name="eula_title">You agree to:</string>
@@ -65,11 +64,9 @@
     <string name="import_btn">IMPORT</string>
     <string name="capture_btn">CAPTURE</string>
 
-    <string-array name="ar_media_capture_options">
-        <item>Photo</item>
-        <item>Video</item>
-        <item>Audio</item>
-    </string-array>
+    <string name="drawer_photo">Photo</string>
+    <string name="drawer_video">Video</string>
+    <string name="drawer_audio">Audio</string>
 
     <!-- ViewMediaActivity -->
     <string name="iv_content_desc">Main Image</string>
@@ -102,5 +99,9 @@
     <string name="lbl_update_value">Update Value</string>
     <string name="lbl_enter_value">Tap To Enter Value</string>
     <string name="view_published_media_online">View published media online?</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="about_body"><![CDATA[OpenArchive is a free, open-source mobile application for journalists, activists, and citizen documentarians to securely preserve their media at the Internet Archive. It sends media over Tor and offers creative commons licensing to give communities more agency over their media, respects civil liberties, and increases interoperability for researchers, scholars, and others interested in finding and reusing it in the future.\n\nOpen Archive was developed in partnership with Scal.io and StoryMaker as part of the Open Archive project with the generous support of the Knight Foundation.]]></string>
 
 </resources>
