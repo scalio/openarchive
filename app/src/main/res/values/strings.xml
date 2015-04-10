@@ -12,11 +12,11 @@
     <string name="title_media_list">Uploads</string>
 
     <!-- General -->
-    <string name="lblUpload">UPLOAD MEDIA</string>
-    <string name="lblEditMetadata">EDIT METADATA</string>
+    <string name="lblUpload">Upload Media</string>
+    <string name="lblEditMetadata">Edit Media</string>
     <string name="lblSave">SAVE</string>
     <string name="loading_title">Uploading</string>
-    <string name="loading_message">Please wait...</string>
+    <string name="loading_message">Please wait…</string>
 
     <!-- Default Values -->
     <string name="default_title">My Title</string>
@@ -61,8 +61,8 @@
     <string name="tos_btn">I agree to the terms of service.</string>
 
     <!-- MainFragment -->
-    <string name="import_btn">IMPORT</string>
-    <string name="capture_btn">CAPTURE</string>
+    <string name="import_btn">Import</string>
+    <string name="capture_btn">Capture</string>
 
     <string name="drawer_photo">Photo</string>
     <string name="drawer_video">Video</string>
@@ -77,11 +77,11 @@
     <string name="error_no_media">No Media Found!</string>
 
     <!-- Server -->
-    <string name="lbl_Yes">YES</string>
-    <string name="lbl_Cancel">CANCEL</string>
+    <string name="lbl_Yes">Yes</string>
+    <string name="lbl_Cancel">Cancel</string>
     <string name="lbl_off">Off</string>
     <string name="lbl_on">On</string>
-    <string name="lbl_ok">OK</string>
+    <string name="lbl_ok">Ok</string>
     <string name="lbl_settings">Settings</string>
     <string name="lbl_cancelled">Canceled</string>
     <string name="lbl_success">Success</string>
@@ -102,6 +102,6 @@
     <string name="title_activity_about">AboutActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="about_body"><![CDATA[OpenArchive is a free, open-source mobile application for journalists, activists, and citizen documentarians to securely preserve their media at the Internet Archive. It sends media over Tor and offers creative commons licensing to give communities more agency over their media, respects civil liberties, and increases interoperability for researchers, scholars, and others interested in finding and reusing it in the future.\n\nOpen Archive was developed in partnership with Scal.io and StoryMaker as part of the Open Archive project with the generous support of the Knight Foundation.]]></string>
+    <string name="about_body">OpenArchive is a free, open-source mobile application for journalists, activists, and citizen documentarians to securely preserve their media at the Internet Archive. It sends media over Tor and offers creative commons licensing to give communities more agency over their media, respects civil liberties, and increases interoperability for researchers, scholars, and others interested in finding and reusing it in the future.\n\nOpen Archive was developed in partnership with Scal.io and StoryMaker as part of the Open Archive project with the generous support of the Knight Foundation.</string>
 
 </resources>
