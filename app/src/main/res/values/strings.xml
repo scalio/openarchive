@@ -4,7 +4,7 @@
     <!-- Activities -->
     <string name="app_name">OpenArchive</string>
     <string name="title_activity_main">Capture Media</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Login to Internet Archive</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_first_start">First Start</string>
     <string name="title_activity_view_media">View Media</string>
