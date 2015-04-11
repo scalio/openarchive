@@ -7,9 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:padding="8dp" >
 
     <TextView
         android:id="@+id/tvLabel"
@@ -23,6 +21,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:color/background_dark" />
 
     <RelativeLayout
@@ -36,7 +35,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_picture" />
+            android:src="@drawable/ic_action_picture"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextViewLabel"
@@ -76,7 +76,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_emo_basic" />
+            android:src="@drawable/ic_action_emo_basic"
+            android:visibility="gone"/>
 
         <TextView
             style="@style/TextViewLabel"
@@ -115,7 +116,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_emo_basic" />
+            android:src="@drawable/ic_action_emo_basic"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextViewLabel"
@@ -156,7 +158,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_location" />
+            android:src="@drawable/ic_action_location"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextViewLabel"
@@ -197,7 +200,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_location" />
+            android:src="@drawable/ic_action_location"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextViewLabel"
@@ -238,7 +242,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:paddingRight="8dp"
-            android:src="@drawable/ic_action_emo_basic" />
+            android:src="@drawable/ic_action_emo_basic"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextViewLabel"

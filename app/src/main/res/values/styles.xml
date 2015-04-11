@@ -33,14 +33,16 @@
 
     <!-- General -->
     <style name="TextViewLabel" parent="TextViewBase">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
     <style name="TextViewAlert" parent="TextViewBase">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:textColor">@color/light_black</item>
-        <item name="android:textColorHint">@color/light_black</item>
+        <item name="android:textColorHint">@color/light_grey</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingBottom">4dp</item>

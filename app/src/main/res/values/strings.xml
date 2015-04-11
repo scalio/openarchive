@@ -97,7 +97,7 @@
     <string name="problem_authticating">There was a problem authenticating with Internet Archive.</string>
     <string name="uploading_to_internet_archive">Uploading to Internet Archive...</string>
     <string name="lbl_update_value">Update Value</string>
-    <string name="lbl_enter_value">Tap To Enter Value</string>
+    <string name="lbl_enter_value">Tap to enter a value.</string>
     <string name="view_published_media_online">View published media online?</string>
     <string name="title_activity_about">AboutActivity</string>
 
