@@ -1,4 +1,4 @@
-package io.scal.openarchive;
+package net.opendasharchive.openarchive;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

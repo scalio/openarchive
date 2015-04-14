@@ -8,7 +8,7 @@
               android:divider="?android:attr/dividerHorizontal"
               android:orientation="horizontal"
               android:showDividers="middle"
-              tools:context="io.scal.openarchive.MediaListActivity">
+              tools:context="net.opendasharchive.openarchive.MediaListActivity">
 
     <!--
     This layout is a two-pane layout for the Medias
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/media_list"
-        android:name="io.scal.openarchive.MediaListFragment"
+        android:name="net.opendasharchive.openarchive.MediaListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
